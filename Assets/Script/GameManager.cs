@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private Level _level;
-    [SerializeField] private Edge _edgePrefab;
-    [SerializeField] private Point _pointPrefab;
-    [SerializeField] private LineRenderer _highlight;
+    [SerializeField] private Level level;
+    [SerializeField] private Edge edgePrefab;
+    [SerializeField] private Point pointPrefab;
+    [SerializeField] private LineRenderer LineDraw;
 
     private Dictionary<int, Point> points;
     private Dictionary<Vector2Int, Edge> edges;
     private Point startPoint, endPoint;
     private int currentId;
-    private bool hasGameFinished;
+    private bool isFinished;
 
     private void Awake()
     {
-        hasGameFinished = false;
+        isFinished = false;
         points = new Dictionary<int, Point>();
         edges = new Dictionary<Vector2Int, Edge>();
-        _highlight.gameObject.SetActive(false);
+        LineDraw.gameObject.SetActive(false);
         currentId = -1;
         LevelStart();
     }
@@ -28,25 +28,25 @@ public class GameManager : MonoBehaviour
     private void LevelStart()
     {
         Vector3 camPos = Camera.main.transform.position;
-        camPos.x = _level.Col * 0.5f;
-        camPos.y = _level.Row * 0.5f;
+        camPos.x = level.Col * 0.5f;
+        camPos.y = level.Row * 0.5f;
         Camera.main.transform.position = camPos;
-        Camera.main.orthographicSize = Mathf.Max(_level.Col, _level.Row) + 2f;
+        Camera.main.orthographicSize = Mathf.Max(level.Col, level.Row) + 2f;
 
-        for (int i = 0; i < _level.Points.Count; i++)
+        for (int i = 0; i < level.Points.Count; i++)
         {
-            Vector4 posData = _level.Points[i];
+            Vector4 posData = level.Points[i];
             Vector3 spawnPos = new Vector3(posData.x, posData.y, posData.z);
             int id = (int)posData.w;
-            points[id] = Instantiate(_pointPrefab);
+            points[id] = Instantiate(pointPrefab);
             points[id].Init(spawnPos, id);
         }
 
-        for (int i = 0; i < _level.Edges.Count; i++)
+        for (int i = 0; i < level.Edges.Count; i++)
         {
-            Vector2Int normal = _level.Edges[i];
+            Vector2Int normal = level.Edges[i];
             Vector2Int reversed = new Vector2Int(normal.y, normal.x);
-            Edge spawnEdge = Instantiate(_edgePrefab);
+            Edge spawnEdge = Instantiate(edgePrefab);
             edges[normal] = spawnEdge;
             edges[reversed] = spawnEdge;
             spawnEdge.Init(points[normal.x].Position, points[normal.y].Position);
@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (hasGameFinished) return;
+        if (isFinished) return;
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -64,10 +64,10 @@ public class GameManager : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
             if (!hit) return;
             startPoint = hit.collider.gameObject.GetComponent<Point>();
-            _highlight.gameObject.SetActive(true);
-            _highlight.positionCount = 2;
-            _highlight.SetPosition(0, startPoint.Position);
-            _highlight.SetPosition(1, startPoint.Position);
+            LineDraw.gameObject.SetActive(true);
+            LineDraw.positionCount = 2;
+            LineDraw.SetPosition(0, startPoint.Position);
+            LineDraw.SetPosition(1, startPoint.Position);
         }
         else if (Input.GetMouseButton(0) && startPoint != null)
         {
@@ -78,15 +78,15 @@ public class GameManager : MonoBehaviour
             {
                 endPoint = hit.collider.gameObject.GetComponent<Point>();
             }
-            _highlight.SetPosition(1, mousePos2D);
+            LineDraw.SetPosition(1, mousePos2D);
             if (startPoint == endPoint || endPoint == null) return;
             if (IsStartAdd())
             {
                 currentId = endPoint.Id;
                 edges[new Vector2Int(startPoint.Id, endPoint.Id)].Add();
                 startPoint = endPoint;
-                _highlight.SetPosition(0, startPoint.Position);
-                _highlight.SetPosition(1, startPoint.Position);
+                LineDraw.SetPosition(0, startPoint.Position);
+                LineDraw.SetPosition(1, startPoint.Position);
             }
             else if (IsEndAdd())
             {
@@ -94,13 +94,13 @@ public class GameManager : MonoBehaviour
                 edges[new Vector2Int(startPoint.Id, endPoint.Id)].Add();
                 CheckWin();
                 startPoint = endPoint;
-                _highlight.SetPosition(0, startPoint.Position);
-                _highlight.SetPosition(1, startPoint.Position);
+                LineDraw.SetPosition(0, startPoint.Position);
+                LineDraw.SetPosition(1, startPoint.Position);
             }
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            _highlight.gameObject.SetActive(false);
+            LineDraw.gameObject.SetActive(false);
             startPoint = null;
             endPoint = null;
             CheckWin();
@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour
                 return;
             }
         }
-        hasGameFinished = true;
+        isFinished = true;
         StartCoroutine(GameFinished());
     }
 
