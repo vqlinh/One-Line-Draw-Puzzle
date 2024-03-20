@@ -22,10 +22,10 @@ public class GameManager : MonoBehaviour
         edges = new Dictionary<Vector2Int, Edge>();
         _highlight.gameObject.SetActive(false);
         currentId = -1;
-        SpawnLevel();
+        LevelStart();
     }
 
-    private void SpawnLevel()
+    private void LevelStart()
     {
         Vector3 camPos = Camera.main.transform.position;
         camPos.x = _level.Col * 0.5f;
@@ -149,7 +149,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator GameFinished()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        print("Win Game");
     }
 }

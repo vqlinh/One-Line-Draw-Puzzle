@@ -11,15 +11,5 @@ public class Point : MonoBehaviour
         Position = pos; 
         transform.position = Position;
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
+
