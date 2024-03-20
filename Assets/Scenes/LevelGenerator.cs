@@ -178,7 +178,7 @@ public class LevelGenerator : MonoBehaviour
         Vector2Int edge = new Vector2Int(endPoint.Id, startPoint.Id);
         if (edges.TryGetValue(edge, out Edge result))
         {
-            if (result == null || result.Filled) return false;
+            if (result == null || result.filled) return false;
         }
         else
         {

@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
         Vector2Int edge = new Vector2Int(endPoint.Id, startPoint.Id);
         if (edges.TryGetValue(edge, out Edge result))
         {
-            if (result == null || result.Filled) return false;
+            if (result == null || result.filled) return false;
         }
         else
         {
@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (var item in edges)
         {
-            if (!item.Value.Filled)
+            if (!item.Value.filled)
             {
                 return;
             }
