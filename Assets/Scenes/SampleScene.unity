@@ -297,10 +297,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4083cfa890bd80248aea61d050cb9f0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: {fileID: 11400000, guid: 94cf9d5dae26b0e4f87005f998190425, type: 2}
-  _edgePrefab: {fileID: 5601161815380276454, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
-  _pointPrefab: {fileID: 5982693955079507347, guid: 770ca73aa736f8c42b89b8df301fa139, type: 3}
-  _highlight: {fileID: 865183414}
+  level: {fileID: 11400000, guid: 94cf9d5dae26b0e4f87005f998190425, type: 2}
+  edgePrefab: {fileID: 5601161815380276454, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
+  pointPrefab: {fileID: 5982693955079507347, guid: 770ca73aa736f8c42b89b8df301fa139, type: 3}
+  LineDraw: {fileID: 865183414}
 --- !u!4 &720643521
 Transform:
   m_ObjectHideFlags: 0
