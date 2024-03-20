@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private bool IsStartAdd()
+    private bool IsStartAdd() // Kiểm tra xem có thể bắt đầu thêm cạnh mới từ điểm hiện tại không.
     {
         if (currentId != -1) return false;
         Vector2Int edge = new Vector2Int(startPoint.Id, endPoint.Id);
@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    private bool IsEndAdd()
+    private bool IsEndAdd() //Kiểm tra xem có thể kết thúc cạnh ở điểm hiện tại không.
     {
         if (currentId != startPoint.Id)
         {
