@@ -6,5 +6,5 @@ public class Level : ScriptableObject
 {
     public int Row, Col;
     public List<Vector4> Points;
-    public List<Vector2Int> Edges;
+    public List<Vector2Int> Lines;
 }

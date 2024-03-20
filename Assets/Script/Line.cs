@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class Edge : MonoBehaviour
+public class Line : MonoBehaviour
 {
     [HideInInspector] public bool filled;
 
     [SerializeField] private LineRenderer line;
     [SerializeField] private Gradient startColor;
-    [SerializeField] private Gradient activeColor;
+    [SerializeField] private Gradient endColor;
 
     public void Init(Vector3 start, Vector3 end)
     {
@@ -20,6 +20,6 @@ public class Edge : MonoBehaviour
     public void Add()
     {
         filled = true;
-        line.colorGradient = activeColor;
+        line.colorGradient = endColor;
     }
 }
