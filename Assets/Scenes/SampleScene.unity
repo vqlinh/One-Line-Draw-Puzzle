@@ -300,7 +300,7 @@ MonoBehaviour:
   _level: {fileID: 11400000, guid: 94cf9d5dae26b0e4f87005f998190425, type: 2}
   _edgePrefab: {fileID: 5601161815380276454, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
   _pointPrefab: {fileID: 5982693955079507347, guid: 770ca73aa736f8c42b89b8df301fa139, type: 3}
-  _highlight: {fileID: 0}
+  _highlight: {fileID: 865183414}
 --- !u!4 &720643521
 Transform:
   m_ObjectHideFlags: 0
@@ -316,3 +316,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!120 &865183414 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 5931298828678210267, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
+  m_PrefabInstance: {fileID: 432174077}
+  m_PrefabAsset: {fileID: 0}
