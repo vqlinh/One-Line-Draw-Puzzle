@@ -138,6 +138,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5931298828678210267, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
+      propertyPath: m_Parameters.colorGradient.ctime0
+      value: 65347
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931298828678210267, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 0.18867922
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931298828678210267, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 0.09357874
+      objectReference: {fileID: 0}
+    - target: {fileID: 5931298828678210267, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7460048462934945529, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
       propertyPath: m_RootOrder
       value: 2
