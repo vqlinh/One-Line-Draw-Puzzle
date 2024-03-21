@@ -4,9 +4,9 @@ public class Line : MonoBehaviour
 {
     [HideInInspector] public bool filled;
 
-    [SerializeField] private LineRenderer line;
-    [SerializeField] private Gradient startColor;
-    [SerializeField] private Gradient endColor;
+    [SerializeField] public LineRenderer line;
+    [SerializeField] public Gradient startColor;
+    [SerializeField] public Gradient endColor;
 
     public void Init(Vector3 start, Vector3 end)
     {
@@ -21,5 +21,6 @@ public class Line : MonoBehaviour
     {
         filled = true;
         line.colorGradient = endColor;
+        line.sortingOrder++;
     }
 }

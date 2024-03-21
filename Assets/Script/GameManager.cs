@@ -126,6 +126,7 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
+
     private void CheckWin()
     {
         foreach (var item in lines)
