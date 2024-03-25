@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 public class ButtonSetting : MonoBehaviour
 {
-    public GameObject objectToToggle; // Tham chiếu đến game object cần bật/tắt
-    public string playerPrefsKey; // Key để lưu trạng thái của setting
+    public GameObject objectToToggle; 
+    public string playerPrefsKey; 
 
-    private bool isObjectActive = true; // Trạng thái ban đầu
+    private bool isObjectActive = true; 
 
     private void Start()
     {
@@ -30,7 +30,7 @@ public class ButtonSetting : MonoBehaviour
 
     private void LoadToggleState()
     {
-        int savedState = PlayerPrefs.GetInt(playerPrefsKey, 1); // Giá trị mặc định là bật (1)
+        int savedState = PlayerPrefs.GetInt(playerPrefsKey, 1); 
         isObjectActive = savedState == 1;
         objectToToggle.SetActive(isObjectActive);
     }

@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator GameFinished()
     {
         yield return new WaitForSeconds(1f);
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
         print("Win Game");
     }
 }

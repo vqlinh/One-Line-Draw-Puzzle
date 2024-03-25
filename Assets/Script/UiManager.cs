@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CandyCoded.HapticFeedback;
+using UnityEngine.SceneManagement;
 
 public class UiManager : Singleton<UiManager>
 {
@@ -25,5 +26,9 @@ public class UiManager : Singleton<UiManager>
     {
         HapticFeedback.LightFeedback();
         Debug.Log("HeavyVib");
+    }
+    public void LoadScene()
+    {
+        SceneManager.LoadScene("GamePlay");
     }
 }
