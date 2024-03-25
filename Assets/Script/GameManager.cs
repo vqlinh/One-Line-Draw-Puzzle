@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Line linePrefab;
     [SerializeField] private Point pointPrefab;
     [SerializeField] private LineRenderer LineDraw;
-
+    public float col, row;
     private Dictionary<int, Point> points;
     private Dictionary<Vector2Int, Line> lines;
     private Point startPoint, endPoint;
@@ -28,8 +28,8 @@ public class GameManager : MonoBehaviour
     private void LevelStart()
     {
         Vector3 camPos = Camera.main.transform.position;
-        camPos.x = level.Col * 0.5f;
-        camPos.y = level.Row * 0.5f;
+        camPos.x = level.Col * col;
+        camPos.y = level.Row * row;
         Camera.main.transform.position = camPos;
         Camera.main.orthographicSize = Mathf.Max(level.Col, level.Row) + 2f;
 
@@ -77,15 +77,16 @@ public class GameManager : MonoBehaviour
             if (hit) endPoint = hit.collider.gameObject.GetComponent<Point>();
             LineDraw.SetPosition(1, mousePos2D);
             if (startPoint == endPoint || endPoint == null) return;
-            if (IsStartAdd())
+            if (IsConnectLine())
             {
                 currentId = endPoint.Id;
                 lines[new Vector2Int(startPoint.Id, endPoint.Id)].Add();
                 startPoint = endPoint;
                 LineDraw.SetPosition(0, startPoint.Position);
                 LineDraw.SetPosition(1, startPoint.Position);
+                Debug.Log("IsConnectLine");
             }
-            else if (IsEndAdd())
+            else if (IsEndConnect())
             {
                 currentId = endPoint.Id;
                 lines[new Vector2Int(startPoint.Id, endPoint.Id)].Add();
@@ -93,6 +94,8 @@ public class GameManager : MonoBehaviour
                 startPoint = endPoint;
                 LineDraw.SetPosition(0, startPoint.Position);
                 LineDraw.SetPosition(1, startPoint.Position);
+                Debug.Log("IsEndConnect");
+
             }
         }
         else if (Input.GetMouseButtonUp(0))
@@ -104,15 +107,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private bool IsStartAdd() // Kiểm tra xem có thể bắt đầu thêm cạnh mới từ điểm hiện tại không.
+    private bool IsConnectLine() // Kiểm tra xem có thể bắt đầu thêm cạnh mới từ điểm hiện tại không.
     {
         if (currentId != -1) return false;
         Vector2Int line = new Vector2Int(startPoint.Id, endPoint.Id);
-        if (!lines.ContainsKey(line)) return false;
+        if (!lines.ContainsKey(line)) return false; // check xem lúc bắt đầu game có line giữa 2 điểm chưa, nếu k có thì false ( nếu true thì vẽ dược)
         return true;
     }
 
-    private bool IsEndAdd() //Kiểm tra xem có thể kết thúc cạnh ở điểm hiện tại không.
+    private bool IsEndConnect() //Kiểm tra xem có thể kết thúc cạnh ở điểm hiện tại không.
     {
         if (currentId != startPoint.Id) return false;
 
