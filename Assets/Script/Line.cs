@@ -22,5 +22,6 @@ public class Line : MonoBehaviour
         filled = true;
         line.colorGradient = endColor;
         line.sortingOrder++;
+        Debug.Log("Line"+line);
     }
 }

@@ -8,12 +8,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Line linePrefab;
     [SerializeField] private Point pointPrefab;
     [SerializeField] private LineRenderer LineDraw;
+
     public float col, row;
-    private Dictionary<int, Point> points;
-    private Dictionary<Vector2Int, Line> lines;
-    private Point startPoint, endPoint;
     private int currentId;
     private bool isFinished;
+    private GameObject panelWin;
+    private Point startPoint, endPoint;
+    private Dictionary<int, Point> points;
+    private Dictionary<Vector2Int, Line> lines;
 
     private void Awake()
     {
@@ -23,6 +25,8 @@ public class GameManager : MonoBehaviour
         LineDraw.gameObject.SetActive(false);
         currentId = -1;
         LevelStart();
+        panelWin = GameObject.Find("CompleteLevel");
+        panelWin.SetActive(false);
     }
 
     private void LevelStart()
@@ -143,7 +147,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator GameFinished()
     {
         yield return new WaitForSeconds(1f);
-        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        panelWin.SetActive(true);
         print("Win Game");
     }
 }

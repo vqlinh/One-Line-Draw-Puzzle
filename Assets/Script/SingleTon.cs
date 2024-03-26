@@ -23,7 +23,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void Awake()
     {
-        DontDestroyOnLoad(gameObject);
         T[] Ts = FindObjectsOfType<T>();
         if (Ts.Length > 1)
         {
