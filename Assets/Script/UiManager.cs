@@ -27,8 +27,12 @@ public class UiManager : Singleton<UiManager>
         HapticFeedback.LightFeedback();
         Debug.Log("HeavyVib");
     }
-    public void LoadScene()
+    public void LoadSceneGamePlay()
     {
         SceneManager.LoadScene("GamePlay");
+    } 
+    public void LoadSceneHomeScene()
+    {
+        SceneManager.LoadScene("HomeScene");
     }
 }
