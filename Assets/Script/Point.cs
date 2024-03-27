@@ -10,7 +10,6 @@ public class Point : MonoBehaviour
         Id = id;
         Position = pos; 
         transform.position = Position;
-        Debug.Log("point : "+ id+pos);
     }
 }
 

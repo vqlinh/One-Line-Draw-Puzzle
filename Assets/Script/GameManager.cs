@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Point pointPrefab;
     [SerializeField] private LineRenderer LineDraw;
 
+    private Canvas canvas;
+    public GameObject waveFormPrefabs;
     public int levelChoose;
     private Level currentLevel;
     private int currentId;
@@ -22,6 +24,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         isFinished = false;
         points = new Dictionary<int, Point>();
         lines = new Dictionary<Vector2Int, Line>();
@@ -40,9 +43,29 @@ public class GameManager : MonoBehaviour
         if (levelChoose == -1 || levelChoose == levels.Count - 1) return;
         int nextIndex= levelChoose + 1;
         Level NextLevel = levels[nextIndex];
+        ResetPreviousLevel();
+
         LevelStart(NextLevel);
+        startPoint = null;
+        endPoint = null;
+        currentId = -1;
+        isFinished = false;
     }
 
+    private void ResetPreviousLevel()
+    {
+        foreach (var point in points.Values)
+        {
+            Destroy(point.gameObject);
+        }
+        points.Clear();
+
+        foreach (var line in lines.Values)
+        {
+            Destroy(line.gameObject);
+        }
+        lines.Clear();
+    }
     private void LevelStart(Level level)
     {
         for (int i = 0; i < level.Points.Count; i++)
@@ -64,12 +87,10 @@ public class GameManager : MonoBehaviour
             spawnLine.Init(points[normal.x].Position, points[normal.y].Position);
         }
         currentLevel= level;
-        Debug.Log("LevelStart");
     }
 
     private void Update()
     {
-
         if (isFinished) return;
 
         if (Input.GetMouseButtonDown(0))
@@ -104,11 +125,14 @@ public class GameManager : MonoBehaviour
             {
                 currentId = endPoint.Id;
                 lines[new Vector2Int(startPoint.Id, endPoint.Id)].Add();
-                CheckWin();
+                CheckToWin();
                 startPoint = endPoint;
                 LineDraw.SetPosition(0, startPoint.Position);
                 LineDraw.SetPosition(1, startPoint.Position);
+                MoveWaveformPrefab(startPoint.Position);
+                
 
+                //waveFormPrefabs.transform.position = startPoint.Position;
             }
         }
         else if (Input.GetMouseButtonUp(0))
@@ -116,7 +140,7 @@ public class GameManager : MonoBehaviour
             LineDraw.gameObject.SetActive(false);
             startPoint = null;
             endPoint = null;
-            CheckWin();
+            CheckToWin();
         }
     }
 
@@ -141,8 +165,17 @@ public class GameManager : MonoBehaviour
 
         return true;
     }
+    private void MoveWaveformPrefab(Vector3 position)
+    {
+        if (waveFormPrefabs != null)
+        {
+            GameObject waveForm = Instantiate(waveFormPrefabs, canvas.transform);
+            // Di chuyển prefab đến vị trí của điểm gần nhất
+            waveForm.transform.position = position;
+        }
+    }
 
-    private void CheckWin()
+    private void CheckToWin()
     {
         foreach (var item in lines)
         {
@@ -156,6 +189,5 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         panelWin.SetActive(true);
-        print("Win Game");
     }
 }
