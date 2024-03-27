@@ -10,13 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a9b4a69fc965744f9a05a25ef637bc4, type: 3}
-  m_Name: Level1
+  m_Name: Level3
   m_EditorClassIdentifier: 
   Points:
-  - {x: -1.5, y: -2, z: 0, w: 0}
-  - {x: 1.5, y: -2, z: 0, w: 1}
-  - {x: 0, y: 1.5, z: 0, w: 2}
+  - {x: -0.8, y: -2.3, z: 0, w: 0}
+  - {x: 0.8, y: -2.3, z: 0, w: 1}
+  - {x: 1.5, y: -0.5, z: 0, w: 2}
+  - {x: -1.5, y: -0.5, z: 0, w: 3}
+  - {x: 0, y: 2, z: 0, w: 4}
   Lines:
-  - {x: 0, y: 1}
+  - {x: 0, y: 3}
   - {x: 0, y: 2}
-  - {x: 2, y: 1}
+  - {x: 0, y: 1}
+  - {x: 0, y: 4}
+  - {x: 1, y: 3}
+  - {x: 1, y: 4}
+  - {x: 1, y: 2}
