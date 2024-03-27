@@ -12,14 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9b4a69fc965744f9a05a25ef637bc4, type: 3}
   m_Name: Level2
   m_EditorClassIdentifier: 
-  Row: 5
-  Col: 5
   Points:
-  - {x: 0, y: 0, z: 0, w: 0}
-  - {x: 2, y: 0, z: 0, w: 1}
-  - {x: 3, y: 2, z: 0, w: 2}
-  - {x: -1, y: 2, z: 0, w: 3}
-  - {x: 1, y: 3.5, z: 0, w: 4}
+  - {x: -1.5, y: -2, z: 0, w: 0}
+  - {x: 1.5, y: -2, z: 0, w: 1}
+  - {x: 1.7, y: 0, z: 0, w: 2}
+  - {x: -1.7, y: 0, z: 0, w: 3}
+  - {x: 0, y: 2.5, z: 0, w: 4}
   Lines:
   - {x: 0, y: 2}
   - {x: 0, y: 4}

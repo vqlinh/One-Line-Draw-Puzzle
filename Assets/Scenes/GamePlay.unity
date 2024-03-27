@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 2661609}
   - component: {fileID: 2661608}
   m_Layer: 5
-  m_Name: Button
+  m_Name: NextLevel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -206,7 +206,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2661609}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 720643520}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: NextLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 365788856}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2661609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,32 +578,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5601161815380276454, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
       propertyPath: endColor.key0.b
-      value: 0.9725491
+      value: 0.7960785
       objectReference: {fileID: 0}
     - target: {fileID: 5601161815380276454, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
       propertyPath: endColor.key0.g
-      value: 0.48235297
+      value: 0.6666667
       objectReference: {fileID: 0}
     - target: {fileID: 5601161815380276454, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
       propertyPath: endColor.key0.r
-      value: 0
+      value: 0.18039216
       objectReference: {fileID: 0}
     - target: {fileID: 5601161815380276454, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
       propertyPath: endColor.key1.b
-      value: 0.9725491
+      value: 0.7960785
       objectReference: {fileID: 0}
     - target: {fileID: 5601161815380276454, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
       propertyPath: endColor.key1.g
-      value: 0.48235297
+      value: 0.6666667
       objectReference: {fileID: 0}
     - target: {fileID: 5601161815380276454, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
       propertyPath: endColor.key1.r
-      value: 0
+      value: 0.18039216
       objectReference: {fileID: 0}
     - target: {fileID: 5931298828678210267, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
       propertyPath: m_SortingOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5931298828678210267, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 5931298828678210267, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
       propertyPath: m_Parameters.colorGradient.atime0
       value: 0
@@ -590,15 +618,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5931298828678210267, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
       propertyPath: m_Parameters.colorGradient.key0.b
-      value: 0.9716981
+      value: 0.7960785
       objectReference: {fileID: 0}
     - target: {fileID: 5931298828678210267, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
       propertyPath: m_Parameters.colorGradient.key0.g
-      value: 0.48225677
+      value: 0.6666667
       objectReference: {fileID: 0}
     - target: {fileID: 5931298828678210267, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
       propertyPath: m_Parameters.colorGradient.key0.r
-      value: 0
+      value: 0.18039216
       objectReference: {fileID: 0}
     - target: {fileID: 7460048462934945529, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
       propertyPath: m_RootOrder
@@ -844,7 +872,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 1.5, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -956,12 +984,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4083cfa890bd80248aea61d050cb9f0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: {fileID: 11400000, guid: 94cf9d5dae26b0e4f87005f998190425, type: 2}
+  levels:
+  - {fileID: 11400000, guid: 94cf9d5dae26b0e4f87005f998190425, type: 2}
+  - {fileID: 11400000, guid: 46cd2f93ceaff1c4aa5381f16468dff7, type: 2}
   linePrefab: {fileID: 5601161815380276454, guid: 1d5310a939147064a85383170d4b5a9d, type: 3}
   pointPrefab: {fileID: 5982693955079507347, guid: 770ca73aa736f8c42b89b8df301fa139, type: 3}
   LineDraw: {fileID: 865183414}
-  col: 0.2
-  row: 0.4
+  levelChoose: 0
 --- !u!4 &720643521
 Transform:
   m_ObjectHideFlags: 0
@@ -2109,6 +2138,10 @@ PrefabInstance:
     - target: {fileID: 2115332413235827081, guid: a35ea7c86b1b6584dbbf5448e25fc9b2, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2115332413251373464, guid: a35ea7c86b1b6584dbbf5448e25fc9b2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 58.69995
       objectReference: {fileID: 0}
     - target: {fileID: 2115332413400283842, guid: a35ea7c86b1b6584dbbf5448e25fc9b2, type: 3}
       propertyPath: m_Name

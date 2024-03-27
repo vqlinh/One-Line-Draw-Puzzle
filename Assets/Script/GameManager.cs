@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private Level level;
+    [SerializeField] private List<Level> levels;
     [SerializeField] private Line linePrefab;
     [SerializeField] private Point pointPrefab;
     [SerializeField] private LineRenderer LineDraw;
 
-    public float col, row;
+    public int levelChoose;
+    private Level currentLevel;
     private int currentId;
     private bool isFinished;
     private GameObject panelWin;
@@ -24,19 +27,24 @@ public class GameManager : MonoBehaviour
         lines = new Dictionary<Vector2Int, Line>();
         LineDraw.gameObject.SetActive(false);
         currentId = -1;
-        LevelStart();
+
+        Level levelStart = levels[levelChoose];
+        LevelStart(levelStart);
         panelWin = GameObject.Find("CompleteLevel");
         panelWin.SetActive(false);
     }
 
-    private void LevelStart()
+    public void NextLevel()
     {
-        Vector3 camPos = Camera.main.transform.position;
-        camPos.x = level.Col * col;
-        camPos.y = level.Row * row;
-        Camera.main.transform.position = camPos;
-        Camera.main.orthographicSize = Mathf.Max(level.Col, level.Row) + 2f;
+        levelChoose = levels.IndexOf(currentLevel);
+        if (levelChoose == -1 || levelChoose == levels.Count - 1) return;
+        int nextIndex= levelChoose + 1;
+        Level NextLevel = levels[nextIndex];
+        LevelStart(NextLevel);
+    }
 
+    private void LevelStart(Level level)
+    {
         for (int i = 0; i < level.Points.Count; i++)
         {
             Vector4 posData = level.Points[i];
@@ -55,10 +63,13 @@ public class GameManager : MonoBehaviour
             lines[reversed] = spawnLine;
             spawnLine.Init(points[normal.x].Position, points[normal.y].Position);
         }
+        currentLevel= level;
+        Debug.Log("LevelStart");
     }
 
     private void Update()
     {
+
         if (isFinished) return;
 
         if (Input.GetMouseButtonDown(0))
@@ -88,7 +99,6 @@ public class GameManager : MonoBehaviour
                 startPoint = endPoint;
                 LineDraw.SetPosition(0, startPoint.Position);
                 LineDraw.SetPosition(1, startPoint.Position);
-                Debug.Log("IsConnectLine");
             }
             else if (IsEndConnect())
             {
@@ -98,7 +108,6 @@ public class GameManager : MonoBehaviour
                 startPoint = endPoint;
                 LineDraw.SetPosition(0, startPoint.Position);
                 LineDraw.SetPosition(1, startPoint.Position);
-                Debug.Log("IsEndConnect");
 
             }
         }
@@ -132,7 +141,6 @@ public class GameManager : MonoBehaviour
 
         return true;
     }
-
 
     private void CheckWin()
     {

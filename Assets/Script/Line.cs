@@ -15,6 +15,7 @@ public class Line : MonoBehaviour
         line.SetPosition(1, end);
         line.colorGradient = startColor;
         filled = false;
+        Debug.Log("Line_Init");
     }
 
     public void Add()
@@ -22,6 +23,7 @@ public class Line : MonoBehaviour
         filled = true;
         line.colorGradient = endColor;
         line.sortingOrder++;
-        Debug.Log("Line"+line);
+        Debug.Log("Line_Add");
+
     }
 }
