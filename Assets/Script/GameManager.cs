@@ -1,20 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private List<Level> levels;
     [SerializeField] private Line linePrefab;
     [SerializeField] private Point pointPrefab;
+    [SerializeField] private List<Level> levels;
     [SerializeField] private LineRenderer LineDraw;
 
     private Canvas canvas;
-    public GameObject waveFormPrefabs;
     public int levelChoose;
     private Level currentLevel;
+    private List<GameObject> waves;
+    private GameObject previousWave;
+    public GameObject waveFormPrefabs;
+    private List<Line> lineDraws;
+
     private int currentId;
     private bool isFinished;
     private GameObject panelWin;
@@ -24,7 +27,9 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        lineDraws = new List<Line>();
+        waves = new List<GameObject>();
+        canvas = GameObject.Find("CanvasWaveForm").GetComponent<Canvas>();
         isFinished = false;
         points = new Dictionary<int, Point>();
         lines = new Dictionary<Vector2Int, Line>();
@@ -43,17 +48,65 @@ public class GameManager : MonoBehaviour
         if (levelChoose == -1 || levelChoose == levels.Count - 1) return;
         int nextIndex= levelChoose + 1;
         Level NextLevel = levels[nextIndex];
-        ResetPreviousLevel();
-
+        ClearPreviousLevel();
+        ClearWaveForm();
         LevelStart(NextLevel);
+    }
+
+    public void Replay()
+    {
+        ClearPreviousLevel();
+        ClearWaveForm();
+        LevelStart(currentLevel);
+    }
+
+    public void Undo()
+    {
+        if (!isFinished) // Chỉ cho phép undo khi chưa hoàn thành trò chơi
+        {
+            //UndoLastLine();
+        }
+    }
+    //private void UndoLastLine()
+    //{
+    //    if (lines.Count > 0)
+    //    {
+    //        // Lấy key của đường cuối cùng
+    //        Vector2Int lastLineKey = lines.Keys.Last();
+
+    //        // Lấy đối tượng đường cuối cùng
+    //        Line lastLine = lines[lastLineKey];
+
+    //        // Xóa đường cuối cùng ra khỏi scene
+    //        Destroy(lastLine.gameObject);
+
+    //        // Xóa đường cuối cùng khỏi danh sách lines
+    //        lines.Remove(lastLineKey);
+
+    //        // Cập nhật lại startPoint và endPoint nếu cần
+    //        startPoint = points[lastLineKey.x];
+    //        endPoint = points[lastLineKey.y];
+
+    //        // Reset trạng thái của isFinished nếu cần
+    //        isFinished = false;
+    //    }
+    //}
+
+    private void ClearWaveForm()
+    {
+        foreach (var wave in waves)
+        {
+            Destroy(wave);
+        }
+        waves.Clear();
+    }
+
+    private void ClearPreviousLevel()
+    {
         startPoint = null;
         endPoint = null;
         currentId = -1;
         isFinished = false;
-    }
-
-    private void ResetPreviousLevel()
-    {
         foreach (var point in points.Values)
         {
             Destroy(point.gameObject);
@@ -120,6 +173,7 @@ public class GameManager : MonoBehaviour
                 startPoint = endPoint;
                 LineDraw.SetPosition(0, startPoint.Position);
                 LineDraw.SetPosition(1, startPoint.Position);
+                WaveForm(startPoint.Position);
             }
             else if (IsEndConnect())
             {
@@ -129,10 +183,8 @@ public class GameManager : MonoBehaviour
                 startPoint = endPoint;
                 LineDraw.SetPosition(0, startPoint.Position);
                 LineDraw.SetPosition(1, startPoint.Position);
-                MoveWaveformPrefab(startPoint.Position);
-                
+                WaveForm(startPoint.Position);
 
-                //waveFormPrefabs.transform.position = startPoint.Position;
             }
         }
         else if (Input.GetMouseButtonUp(0))
@@ -165,13 +217,19 @@ public class GameManager : MonoBehaviour
 
         return true;
     }
-    private void MoveWaveformPrefab(Vector3 position)
+    private void WaveForm(Vector3 position)
     {
         if (waveFormPrefabs != null)
         {
+            if (previousWave!=null)
+            {
+                previousWave.SetActive(false);
+            }
             GameObject waveForm = Instantiate(waveFormPrefabs, canvas.transform);
-            // Di chuyển prefab đến vị trí của điểm gần nhất
             waveForm.transform.position = position;
+            waves.Add(waveForm);
+            previousWave = waveForm;
+            Debug.Log("waves : "+waves.Count);
         }
     }
 
@@ -187,7 +245,11 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator GameFinished()
     {
-        yield return new WaitForSeconds(1f);
+        foreach (var wave in waves)
+        {
+            wave.SetActive(true);
+        }
+        yield return new WaitForSeconds(2f);
         panelWin.SetActive(true);
     }
 }

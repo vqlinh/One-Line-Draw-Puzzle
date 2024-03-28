@@ -6,12 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class UiManager : Singleton<UiManager>
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     public void LightVib()
     {
         HapticFeedback.LightFeedback();
@@ -19,14 +13,18 @@ public class UiManager : Singleton<UiManager>
     }
     public void MediumVib()
     {
-        HapticFeedback.LightFeedback();
+        HapticFeedback.MediumFeedback();
         Debug.Log("MediumVib");
     }
     public void HeavyVib()
     {
-        HapticFeedback.LightFeedback();
+        HapticFeedback.HeavyFeedback();
         Debug.Log("HeavyVib");
     }
+
+
+
+
     public void LoadSceneGamePlay()
     {
         SceneManager.LoadScene("GamePlay");
