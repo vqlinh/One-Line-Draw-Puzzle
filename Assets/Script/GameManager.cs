@@ -68,9 +68,15 @@ public class GameManager : MonoBehaviour
     {
         if (!isFinished && lineDraws.Count > 0)
         {
-            GameObject objectToRemove = lineDraws[lineDraws.Count - 1]; // Lấy reference đến game object cuối cùng trong danh sách
-            lineDraws.RemoveAt(lineDraws.Count - 1); // Xóa phần tử cuối cùng trong danh sách
-            Destroy(objectToRemove); // Hủy game object cuối cùng
+            //GameObject objectToRemove = lineDraws[lineDraws.Count - 1]; // Lấy reference đến game object cuối cùng trong danh sách
+            //lineDraws.RemoveAt(lineDraws.Count - 1); // Xóa phần tử cuối cùng trong danh sách
+            //Destroy(objectToRemove); // Hủy game object cuối cùng
+            Vector2Int lineToRemove = new Vector2Int(startPoint.Id, endPoint.Id);
+            // Nếu Dictionary chứa đường này thì loại bỏ nó đi
+            if (lines.ContainsKey(lineToRemove))
+            {
+                lines.Remove(lineToRemove);
+            }
         }
     }
  
@@ -227,7 +233,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator GameFinished()
+    private IEnumerator ShowUiGameFinish()
     {
         yield return new WaitForSeconds(2f);
         panelWin.SetActive(true);
@@ -240,6 +246,6 @@ public class GameManager : MonoBehaviour
             if (!item.Value.filled) return;
         }
         isFinished = true;
-        StartCoroutine(GameFinished());
+        StartCoroutine(ShowUiGameFinish());
     }
 }
