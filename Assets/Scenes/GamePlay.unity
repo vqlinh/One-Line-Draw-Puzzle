@@ -991,8 +991,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 46cd2f93ceaff1c4aa5381f16468dff7, type: 2}
   - {fileID: 11400000, guid: ed1aa562a26174d45ac484490f1a68f9, type: 2}
   LineDraw: {fileID: 865183414}
-  levelChoose: 1
+  levelChoose: 2
   waveFormPrefabs: {fileID: 1465130111948049792, guid: d5c4671e95d42e240a78a056063bf89f, type: 3}
+  lineDraws: []
 --- !u!4 &720643521
 Transform:
   m_ObjectHideFlags: 0
