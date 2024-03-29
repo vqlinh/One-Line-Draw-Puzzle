@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,10 +13,10 @@ public class GameManager : MonoBehaviour
     private Canvas canvas;
     public int levelChoose;
     private Level currentLevel;
-    private List<GameObject> waves;
+    private List<GameObject> listWave;
     private GameObject previousWave;
     public GameObject waveFormPrefabs;
-    private List<Line> lineDraws;
+    public List<GameObject> lineDraws;
 
     private int currentId;
     private bool isFinished;
@@ -27,8 +27,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        lineDraws = new List<Line>();
-        waves = new List<GameObject>();
+        lineDraws = new List<GameObject>();
+        listWave = new List<GameObject>();
         canvas = GameObject.Find("CanvasWaveForm").GetComponent<Canvas>();
         isFinished = false;
         points = new Dictionary<int, Point>();
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     {
         levelChoose = levels.IndexOf(currentLevel);
         if (levelChoose == -1 || levelChoose == levels.Count - 1) return;
-        int nextIndex= levelChoose + 1;
+        int nextIndex = levelChoose + 1;
         Level NextLevel = levels[nextIndex];
         ClearPreviousLevel();
         ClearWaveForm();
@@ -55,50 +55,33 @@ public class GameManager : MonoBehaviour
 
     public void Replay()
     {
-        ClearPreviousLevel();
-        ClearWaveForm();
-        LevelStart(currentLevel);
+        if (!isFinished)
+        {
+            ClearPreviousLevel();
+            ClearWaveForm();
+            LevelStart(currentLevel);
+        }
+
     }
 
     public void Undo()
     {
-        if (!isFinished) // Chỉ cho phép undo khi chưa hoàn thành trò chơi
+        if (!isFinished && lineDraws.Count > 0)
         {
-            //UndoLastLine();
+            GameObject objectToRemove = lineDraws[lineDraws.Count - 1]; // Lấy reference đến game object cuối cùng trong danh sách
+            lineDraws.RemoveAt(lineDraws.Count - 1); // Xóa phần tử cuối cùng trong danh sách
+            Destroy(objectToRemove); // Hủy game object cuối cùng
         }
     }
-    //private void UndoLastLine()
-    //{
-    //    if (lines.Count > 0)
-    //    {
-    //        // Lấy key của đường cuối cùng
-    //        Vector2Int lastLineKey = lines.Keys.Last();
-
-    //        // Lấy đối tượng đường cuối cùng
-    //        Line lastLine = lines[lastLineKey];
-
-    //        // Xóa đường cuối cùng ra khỏi scene
-    //        Destroy(lastLine.gameObject);
-
-    //        // Xóa đường cuối cùng khỏi danh sách lines
-    //        lines.Remove(lastLineKey);
-
-    //        // Cập nhật lại startPoint và endPoint nếu cần
-    //        startPoint = points[lastLineKey.x];
-    //        endPoint = points[lastLineKey.y];
-
-    //        // Reset trạng thái của isFinished nếu cần
-    //        isFinished = false;
-    //    }
-    //}
+ 
 
     private void ClearWaveForm()
     {
-        foreach (var wave in waves)
+        foreach (var wave in listWave)
         {
             Destroy(wave);
         }
-        waves.Clear();
+        listWave.Clear();
     }
 
     private void ClearPreviousLevel()
@@ -139,7 +122,7 @@ public class GameManager : MonoBehaviour
             lines[reversed] = spawnLine;
             spawnLine.Init(points[normal.x].Position, points[normal.y].Position);
         }
-        currentLevel= level;
+        currentLevel = level;
     }
 
     private void Update()
@@ -174,6 +157,8 @@ public class GameManager : MonoBehaviour
                 LineDraw.SetPosition(0, startPoint.Position);
                 LineDraw.SetPosition(1, startPoint.Position);
                 WaveForm(startPoint.Position);
+                lineDraws.Add(LineDraw.gameObject);
+                Debug.Log("LineDraws : "  +lineDraws.Count);
             }
             else if (IsEndConnect())
             {
@@ -184,6 +169,8 @@ public class GameManager : MonoBehaviour
                 LineDraw.SetPosition(0, startPoint.Position);
                 LineDraw.SetPosition(1, startPoint.Position);
                 WaveForm(startPoint.Position);
+                lineDraws.Add(LineDraw.gameObject);
+                Debug.Log("LineDraws : " + lineDraws.Count);
 
             }
         }
@@ -221,16 +208,29 @@ public class GameManager : MonoBehaviour
     {
         if (waveFormPrefabs != null)
         {
-            if (previousWave!=null)
+            if (previousWave != null)
             {
                 previousWave.SetActive(false);
             }
             GameObject waveForm = Instantiate(waveFormPrefabs, canvas.transform);
             waveForm.transform.position = position;
-            waves.Add(waveForm);
             previousWave = waveForm;
-            Debug.Log("waves : "+waves.Count);
+            listWave.Add(waveForm);
         }
+        if (isFinished)
+        {
+            for (int i = 0; i < listWave.Count; i++)
+            {
+                GameObject gameObject = listWave[i];
+                gameObject.SetActive(true);
+            }
+        }
+    }
+
+    private IEnumerator GameFinished()
+    {
+        yield return new WaitForSeconds(2f);
+        panelWin.SetActive(true);
     }
 
     private void CheckToWin()
@@ -241,15 +241,5 @@ public class GameManager : MonoBehaviour
         }
         isFinished = true;
         StartCoroutine(GameFinished());
-    }
-
-    private IEnumerator GameFinished()
-    {
-        foreach (var wave in waves)
-        {
-            wave.SetActive(true);
-        }
-        yield return new WaitForSeconds(2f);
-        panelWin.SetActive(true);
     }
 }
