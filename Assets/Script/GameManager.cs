@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
-using UnityEngine.UIElements;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Level> levels;
     [SerializeField] private LineRenderer LineDraw;
 
+    public GameObject finger;
     private Canvas canvas;
     public int levelChoose;
     private Level currentLevel;
@@ -27,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        finger.SetActive(false);
         lineDraws = new List<GameObject>();
         listWave = new List<GameObject>();
         canvas = GameObject.Find("CanvasWaveForm").GetComponent<Canvas>();
@@ -40,6 +43,28 @@ public class GameManager : MonoBehaviour
         LevelStart(levelStart);
         panelWin = GameObject.Find("CompleteLevel");
         panelWin.SetActive(false);
+    }
+
+    public void Hint()
+    {
+        if (currentLevel == null) return; // Kiểm tra xem có level nào đang chạy không
+        if (currentLevel.Lines.Count == 0) return; // Kiểm tra xem có đường thẳng nào không
+
+        // Lấy điểm đầu và điểm cuối của đường thẳng đầu tiên trong level
+        Vector2Int firstLine = currentLevel.Lines[0];
+        Point startPoint = points[firstLine.x];
+        Point endPoint = points[firstLine.y];
+
+        // Di chuyển ngón tay từ điểm đầu đến điểm cuối
+        MoveFingerFromTo(startPoint.Position, endPoint.Position);
+    }
+
+    // Hàm di chuyển ngón tay từ một vị trí đến vị trí khác sử dụng DOTween
+    private void MoveFingerFromTo(Vector3 startPos, Vector3 endPos)
+    {
+        finger.SetActive(true);
+
+        finger.transform.DOMove(endPos, 1f); // Di chuyển ngón tay đến vị trí cuối trong 1 giây
     }
 
     public void NextLevel()
@@ -64,19 +89,22 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void Undo()
+    public void Undo() // chưa hoàn thiện , hoàn thiện sau
     {
-        if (!isFinished && lineDraws.Count > 0)
+        if (!isFinished)
         {
-            //GameObject objectToRemove = lineDraws[lineDraws.Count - 1]; // Lấy reference đến game object cuối cùng trong danh sách
-            //lineDraws.RemoveAt(lineDraws.Count - 1); // Xóa phần tử cuối cùng trong danh sách
-            //Destroy(objectToRemove); // Hủy game object cuối cùng
-            Vector2Int lineToRemove = new Vector2Int(startPoint.Id, endPoint.Id);
-            // Nếu Dictionary chứa đường này thì loại bỏ nó đi
-            if (lines.ContainsKey(lineToRemove))
+            // Lấy ra khóa của đoạn đường cuối cùng được thêm vào
+            Vector2Int lineToRemoveKey = new Vector2Int(startPoint.Id, endPoint.Id);
+
+            // Kiểm tra xem Dictionary lines có chứa đoạn đường này không
+            if (lines.ContainsKey(lineToRemoveKey))
             {
-                lines.Remove(lineToRemove);
+                // Nếu có, xóa đi đoạn đường này khỏi Dictionary
+                lines.Remove(lineToRemoveKey);
             }
+
+            // Cập nhật lại startPoint và endPoint cho việc vẽ đường tiếp theo (nếu có)
+            startPoint = null;
         }
     }
  
@@ -163,8 +191,6 @@ public class GameManager : MonoBehaviour
                 LineDraw.SetPosition(0, startPoint.Position);
                 LineDraw.SetPosition(1, startPoint.Position);
                 WaveForm(startPoint.Position);
-                lineDraws.Add(LineDraw.gameObject);
-                Debug.Log("LineDraws : "  +lineDraws.Count);
             }
             else if (IsEndConnect())
             {
@@ -175,8 +201,6 @@ public class GameManager : MonoBehaviour
                 LineDraw.SetPosition(0, startPoint.Position);
                 LineDraw.SetPosition(1, startPoint.Position);
                 WaveForm(startPoint.Position);
-                lineDraws.Add(LineDraw.gameObject);
-                Debug.Log("LineDraws : " + lineDraws.Count);
 
             }
         }
