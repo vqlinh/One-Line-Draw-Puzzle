@@ -62,14 +62,23 @@ public class GameManager : MonoBehaviour
             Vector3 startPosition = points[line.x].Position;
             Vector3 endPosition = points[line.y].Position;
             sequence.Append(finger.transform.DOMove(startPosition, 0)); 
-            sequence.Append(finger.transform.DOMove(endPosition, 0.7f).SetEase(Ease.Linear)); 
+            sequence.Append(finger.transform.DOMove(endPosition, 0.7f).SetEase(Ease.Linear));
+            if (i == currentLevel.Lines.Count - 1)
+            {
+                sequence.Append(finger.transform.DOScale(0.8f, 0.2f).SetLoops(2, LoopType.Yoyo)); // Tween scale để tạo hiệu ứng nhảy nhảy
+                sequence.AppendCallback(() =>
+                {
+                    finger.SetActive(false);
+                    fingerMoving = false;
+                });
+            }
         }
 
-        sequence.OnComplete(() =>
-        {
-            finger.SetActive(false);
-            fingerMoving = false;
-        });
+        //sequence.OnComplete(() =>
+        //{
+        //    finger.SetActive(false);
+        //    fingerMoving = false;
+        //});
     }
     private void LevelStart(Level level)
     {
