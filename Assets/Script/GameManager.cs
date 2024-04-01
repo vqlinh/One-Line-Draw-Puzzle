@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 using DG.Tweening;
 
@@ -11,7 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Level> levels;
     [SerializeField] private LineRenderer LineDraw;
 
-    public GameObject finger;
+    private bool fingerMoving = false;
+    private GameObject finger;
     private Canvas canvas;
     public int levelChoose;
     private Level currentLevel;
@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        finger = GameObject.Find("Finger");
         finger.SetActive(false);
         lineDraws = new List<GameObject>();
         listWave = new List<GameObject>();
@@ -47,24 +48,50 @@ public class GameManager : MonoBehaviour
 
     public void Hint()
     {
-        if (currentLevel == null) return; // Kiểm tra xem có level nào đang chạy không
-        if (currentLevel.Lines.Count == 0) return; // Kiểm tra xem có đường thẳng nào không
-
-        // Lấy điểm đầu và điểm cuối của đường thẳng đầu tiên trong level
-        Vector2Int firstLine = currentLevel.Lines[0];
-        Point startPoint = points[firstLine.x];
-        Point endPoint = points[firstLine.y];
-
-        // Di chuyển ngón tay từ điểm đầu đến điểm cuối
-        MoveFingerFromTo(startPoint.Position, endPoint.Position);
-    }
-
-    // Hàm di chuyển ngón tay từ một vị trí đến vị trí khác sử dụng DOTween
-    private void MoveFingerFromTo(Vector3 startPos, Vector3 endPos)
-    {
         finger.SetActive(true);
+        if (fingerMoving) return;
+        fingerMoving = true;
 
-        finger.transform.DOMove(endPos, 1f); // Di chuyển ngón tay đến vị trí cuối trong 1 giây
+        Sequence sequence = DOTween.Sequence();
+
+        finger.transform.position = currentLevel.Points[0];
+
+        for (int i = 0; i < currentLevel.Lines.Count; i++)
+        {
+            Vector2Int line = currentLevel.Lines[i];
+            Vector3 startPosition = points[line.x].Position;
+            Vector3 endPosition = points[line.y].Position;
+            sequence.Append(finger.transform.DOMove(startPosition, 0)); 
+            sequence.Append(finger.transform.DOMove(endPosition, 0.7f).SetEase(Ease.Linear)); 
+        }
+
+        sequence.OnComplete(() =>
+        {
+            finger.SetActive(false);
+            fingerMoving = false;
+        });
+    }
+    private void LevelStart(Level level)
+    {
+        for (int i = 0; i < level.Points.Count; i++)
+        {
+            Vector4 posData = level.Points[i];
+            Vector3 spawnPos = new Vector3(posData.x, posData.y, posData.z);
+            int id = (int)posData.w;
+            points[id] = Instantiate(pointPrefab);
+            points[id].Init(spawnPos, id);
+        }
+
+        for (int i = 0; i < level.Lines.Count; i++)
+        {
+            Vector2Int normal = level.Lines[i];
+            Vector2Int reversed = new Vector2Int(normal.y, normal.x);
+            Line spawnLine = Instantiate(linePrefab);
+            lines[normal] = spawnLine;
+            lines[reversed] = spawnLine; 
+            spawnLine.Init(points[normal.x].Position, points[normal.y].Position);
+        }
+        currentLevel = level;
     }
 
     public void NextLevel()
@@ -107,7 +134,6 @@ public class GameManager : MonoBehaviour
             startPoint = null;
         }
     }
- 
 
     private void ClearWaveForm()
     {
@@ -136,28 +162,7 @@ public class GameManager : MonoBehaviour
         }
         lines.Clear();
     }
-    private void LevelStart(Level level)
-    {
-        for (int i = 0; i < level.Points.Count; i++)
-        {
-            Vector4 posData = level.Points[i];
-            Vector3 spawnPos = new Vector3(posData.x, posData.y, posData.z);
-            int id = (int)posData.w;
-            points[id] = Instantiate(pointPrefab);
-            points[id].Init(spawnPos, id);
-        }
 
-        for (int i = 0; i < level.Lines.Count; i++)
-        {
-            Vector2Int normal = level.Lines[i];
-            Vector2Int reversed = new Vector2Int(normal.y, normal.x);
-            Line spawnLine = Instantiate(linePrefab);
-            lines[normal] = spawnLine;
-            lines[reversed] = spawnLine;
-            spawnLine.Init(points[normal.x].Position, points[normal.y].Position);
-        }
-        currentLevel = level;
-    }
 
     private void Update()
     {
@@ -167,9 +172,9 @@ public class GameManager : MonoBehaviour
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero); //Thực hiện raycast từ vị trí chuột để xem có bắn trúng một collider nào không.
+            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero); 
             if (!hit) return;
-            startPoint = hit.collider.gameObject.GetComponent<Point>(); //Lấy đối tượng Point từ collider được trúng và gán cho startPoint.
+            startPoint = hit.collider.gameObject.GetComponent<Point>();
             LineDraw.gameObject.SetActive(true);
             LineDraw.positionCount = 2;
             LineDraw.SetPosition(0, startPoint.Position);
@@ -213,7 +218,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private bool IsConnectLine() // Kiểm tra xem có thể bắt đầu thêm cạnh mới từ điểm hiện tại không.
+    private bool IsConnectLine() 
     {
         if (currentId != -1) return false;
         Vector2Int line = new Vector2Int(startPoint.Id, endPoint.Id);
@@ -234,6 +239,7 @@ public class GameManager : MonoBehaviour
 
         return true;
     }
+
     private void WaveForm(Vector3 position)
     {
         if (waveFormPrefabs != null)
