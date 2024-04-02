@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Level> levels;
     [SerializeField] private LineRenderer LineDraw;
 
+    private int startIndex = 0;
     private bool fingerMoving = false;
     private GameObject finger;
     private Canvas canvas;
@@ -48,37 +49,35 @@ public class GameManager : MonoBehaviour
 
     public void Hint()
     {
-        finger.SetActive(true);
-        if (fingerMoving) return;
-        fingerMoving = true;
-
-        Sequence sequence = DOTween.Sequence();
-
-        finger.transform.position = currentLevel.Points[0];
-
-        for (int i = 0; i < currentLevel.Lines.Count; i++)
+        if (!isFinished)
         {
-            Vector2Int line = currentLevel.Lines[i];
-            Vector3 startPosition = points[line.x].Position;
-            Vector3 endPosition = points[line.y].Position;
-            sequence.Append(finger.transform.DOMove(startPosition, 0)); 
-            sequence.Append(finger.transform.DOMove(endPosition, 0.7f).SetEase(Ease.Linear));
-            if (i == currentLevel.Lines.Count - 1)
-            {
-                sequence.Append(finger.transform.DOScale(0.8f, 0.2f).SetLoops(2, LoopType.Yoyo)); // Tween scale để tạo hiệu ứng nhảy nhảy
-                sequence.AppendCallback(() =>
-                {
-                    finger.SetActive(false);
-                    fingerMoving = false;
-                });
-            }
-        }
+            finger.SetActive(true);
+            if (fingerMoving) return;
+            fingerMoving = true;
+            Sequence sequence = DOTween.Sequence();
 
-        //sequence.OnComplete(() =>
-        //{
-        //    finger.SetActive(false);
-        //    fingerMoving = false;
-        //});
+            finger.transform.position = currentLevel.Points[Mathf.Min(startIndex, currentLevel.Points.Count - 1)];
+
+            int endIndex = Mathf.Min(startIndex + 4, currentLevel.Lines.Count);
+            for (int i = startIndex; i < endIndex; i++)
+            {
+                Vector2Int line = currentLevel.Lines[i];
+                Vector3 startPosition = points[line.x].Position;
+                Vector3 endPosition = points[line.y].Position;
+                sequence.Append(finger.transform.DOMove(startPosition, 0));
+                sequence.Append(finger.transform.DOMove(endPosition, 0.2f).SetEase(Ease.Linear));
+            }
+            startIndex = endIndex;
+            sequence.Append(finger.transform.DOScale(0.8f, 0.2f).SetLoops(2, LoopType.Yoyo));
+            sequence.AppendCallback(() =>
+            {
+                finger.SetActive(false);    
+                fingerMoving = false;
+            });
+
+            if (startIndex >= currentLevel.Lines.Count) startIndex = 0;
+        }
+        
     }
     private void LevelStart(Level level)
     {
@@ -97,7 +96,7 @@ public class GameManager : MonoBehaviour
             Vector2Int reversed = new Vector2Int(normal.y, normal.x);
             Line spawnLine = Instantiate(linePrefab);
             lines[normal] = spawnLine;
-            lines[reversed] = spawnLine; 
+            lines[reversed] = spawnLine;
             spawnLine.Init(points[normal.x].Position, points[normal.y].Position);
         }
         currentLevel = level;
@@ -112,6 +111,7 @@ public class GameManager : MonoBehaviour
         ClearPreviousLevel();
         ClearWaveForm();
         LevelStart(NextLevel);
+        startIndex = 0;
     }
 
     public void Replay()
@@ -172,7 +172,6 @@ public class GameManager : MonoBehaviour
         lines.Clear();
     }
 
-
     private void Update()
     {
         if (isFinished) return;
@@ -181,7 +180,7 @@ public class GameManager : MonoBehaviour
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero); 
+            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
             if (!hit) return;
             startPoint = hit.collider.gameObject.GetComponent<Point>();
             LineDraw.gameObject.SetActive(true);
@@ -227,7 +226,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private bool IsConnectLine() 
+    private bool IsConnectLine()
     {
         if (currentId != -1) return false;
         Vector2Int line = new Vector2Int(startPoint.Id, endPoint.Id);
