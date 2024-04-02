@@ -24,4 +24,10 @@ public class Line : MonoBehaviour
         line.sortingOrder++;
 
     }
+    public void Remove()
+    {
+        filled = false;
+        line.colorGradient = startColor;
+        line.sortingOrder--;
+    }
 }

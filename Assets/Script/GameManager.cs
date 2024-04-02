@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Level> levels;
     [SerializeField] private LineRenderer LineDraw;
 
+    private TextMeshProUGUI numberLevel;
     private int startIndex = 0;
     private bool fingerMoving = false;
     private GameObject finger;
@@ -30,6 +32,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        numberLevel = GameObject.Find("LevelNumber").GetComponent<TextMeshProUGUI>();
         finger = GameObject.Find("Finger");
         finger.SetActive(false);
         lineDraws = new List<GameObject>();
@@ -99,6 +102,7 @@ public class GameManager : MonoBehaviour
             lines[reversed] = spawnLine;
             spawnLine.Init(points[normal.x].Position, points[normal.y].Position);
         }
+        numberLevel.text = levelChoose.ToString();
         currentLevel = level;
     }
 
@@ -112,6 +116,8 @@ public class GameManager : MonoBehaviour
         ClearWaveForm();
         LevelStart(NextLevel);
         startIndex = 0;
+        numberLevel.text = nextIndex.ToString();
+
     }
 
     public void Replay()
@@ -125,24 +131,26 @@ public class GameManager : MonoBehaviour
 
     }
 
-    //public void Undo() // chưa hoàn thiện , hoàn thiện sau
-    //{
-    //    if (!isFinished)
-    //    {
-    //        // Lấy ra khóa của đoạn đường cuối cùng được thêm vào
-    //        Vector2Int lineToRemoveKey = new Vector2Int(startPoint.Id, endPoint.Id);
+    public void Undo()
+    {
+        // Tạo khóa từ startPoint.Id và endPoint.Id
+        Vector2Int key = new Vector2Int(startPoint.Id, endPoint.Id);
 
-    //        // Kiểm tra xem Dictionary lines có chứa đoạn đường này không
-    //        if (lines.ContainsKey(lineToRemoveKey))
-    //        {
-    //            // Nếu có, xóa đi đoạn đường này khỏi Dictionary
-    //            lines.Remove(lineToRemoveKey);
-    //        }
+        // Kiểm tra xem key có tồn tại trong Dictionary không
+        if (lines.TryGetValue(key, out Line lineToRemove))
+        {
+            // Nếu có, gọi phương thức Remove() trên đối tượng Line
+            lineToRemove.Remove();
 
-    //        // Cập nhật lại startPoint và endPoint cho việc vẽ đường tiếp theo (nếu có)
-    //        startPoint = null;
-    //    }
-    //}
+            // Xóa đối tượng Line khỏi Dictionary
+            lines.Remove(key);
+        }
+
+        // Đặt startPoint và endPoint về null để chuẩn bị cho việc vẽ tiếp theo (nếu có)
+        startPoint = null;
+        endPoint = null;
+    }
+
 
     private void ClearWaveForm()
     {
