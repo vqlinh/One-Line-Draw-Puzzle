@@ -125,24 +125,24 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void Undo() // chưa hoàn thiện , hoàn thiện sau
-    {
-        if (!isFinished)
-        {
-            // Lấy ra khóa của đoạn đường cuối cùng được thêm vào
-            Vector2Int lineToRemoveKey = new Vector2Int(startPoint.Id, endPoint.Id);
+    //public void Undo() // chưa hoàn thiện , hoàn thiện sau
+    //{
+    //    if (!isFinished)
+    //    {
+    //        // Lấy ra khóa của đoạn đường cuối cùng được thêm vào
+    //        Vector2Int lineToRemoveKey = new Vector2Int(startPoint.Id, endPoint.Id);
 
-            // Kiểm tra xem Dictionary lines có chứa đoạn đường này không
-            if (lines.ContainsKey(lineToRemoveKey))
-            {
-                // Nếu có, xóa đi đoạn đường này khỏi Dictionary
-                lines.Remove(lineToRemoveKey);
-            }
+    //        // Kiểm tra xem Dictionary lines có chứa đoạn đường này không
+    //        if (lines.ContainsKey(lineToRemoveKey))
+    //        {
+    //            // Nếu có, xóa đi đoạn đường này khỏi Dictionary
+    //            lines.Remove(lineToRemoveKey);
+    //        }
 
-            // Cập nhật lại startPoint và endPoint cho việc vẽ đường tiếp theo (nếu có)
-            startPoint = null;
-        }
-    }
+    //        // Cập nhật lại startPoint và endPoint cho việc vẽ đường tiếp theo (nếu có)
+    //        startPoint = null;
+    //    }
+    //}
 
     private void ClearWaveForm()
     {
