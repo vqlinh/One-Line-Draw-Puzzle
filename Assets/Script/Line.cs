@@ -17,17 +17,19 @@ public class Line : MonoBehaviour
         filled = false;
     }
 
-    public void Add()
+    public void ChangedColorLine()
     {
         filled = true;
         line.colorGradient = endColor;
         line.sortingOrder++;
 
     }
-    public void Remove()
+    public void ResetLine()
     {
         filled = false;
         line.colorGradient = startColor;
         line.sortingOrder--;
+
     }
+
 }
