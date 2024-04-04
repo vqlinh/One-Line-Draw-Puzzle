@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     private bool fingerMoving = false;
     private GameObject finger;
     private Canvas canvas;
-    public int levelChoose;
+    //public int levelChoose;
     private Level currentLevel;
     private List<GameObject> listWave;
     private GameObject previousWave;
@@ -28,9 +28,10 @@ public class GameManager : MonoBehaviour
     private Point startPoint, endPoint;
     private Dictionary<int, Point> points;
     private Dictionary<Vector2Int, Line> lines;
-
+    List<Line> lineList;
     private void Awake()
     {
+        lineList=new List<Line>();
         finger = GameObject.Find("Finger");
         finger.SetActive(false);
         lineDraws = new List<GameObject>();
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour
         LineDraw.gameObject.SetActive(false);
         currentId = -1;
 
-        Level levelStart = levels[levelChoose];
+        Level levelStart = levels[LevelButton.Instance.numLevel];
         LevelStart(levelStart);
         panelWin = GameObject.Find("CompleteLevel");
         panelWin.SetActive(false);
@@ -66,7 +67,7 @@ public class GameManager : MonoBehaviour
                 Vector3 startPosition = points[line.x].Position;
                 Vector3 endPosition = points[line.y].Position;
                 sequence.Append(finger.transform.DOMove(startPosition, 0));
-                sequence.Append(finger.transform.DOMove(endPosition, 0.2f).SetEase(Ease.Linear));
+                sequence.Append(finger.transform.DOMove(endPosition, 0.4f).SetEase(Ease.Linear));
             }
             startIndex = endIndex;
             sequence.Append(finger.transform.DOScale(0.8f, 0.2f).SetLoops(2, LoopType.Yoyo));
@@ -105,9 +106,9 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        levelChoose = levels.IndexOf(currentLevel);
-        if (levelChoose == -1 || levelChoose == levels.Count - 1) return;
-        int nextIndex = levelChoose + 1;
+        LevelButton.Instance.numLevel = levels.IndexOf(currentLevel);
+        if (LevelButton.Instance.numLevel == -1 || LevelButton.Instance.numLevel == levels.Count - 1) return;
+        int nextIndex = LevelButton.Instance.numLevel + 1;
         Level NextLevel = levels[nextIndex];
         ClearPreviousLevel();
         ClearWaveForm();
@@ -155,32 +156,33 @@ public class GameManager : MonoBehaviour
         lines.Clear();
     }
 
-    public void Undo() // chưa hoàn thiện , hoàn thiện sau
+    public void Undo() // chưa hoàn thiện 
     {
         
-        if (!isFinished && lines.Count>0)
+        if (!isFinished && lineList.Count > 0)
         {
-            Line latestFilledLine = null;
-            List<Line> lineList = new List<Line>(lines.Values);
+            //Line latestFilledLine = null;
             //lineList.Reverse();
-            for (int i= lineList.Count-1;i>=0;i--)
-            {
-                if (lineList[i].filled)
-                {
-                    latestFilledLine= lineList[i];
-                    break;
-                }
-            }
+            //for (int i = lineList.Count - 1; i >= 0; i--)
+            //{
+            //    if (lineList[i].filled)
+            //    {
+            //        latestFilledLine = lineList[i];
+            //        Debug.Log("11");
+            //        break;
+            //    }
+            //}
             //foreach (var line in lineList)
             //{
             //    if (line.filled)
             //    {
+            //        Debug.Log(line.filled);
             //        latestFilledLine = line;
-            //        break; 
+            //        break;
             //    }
             //}
-
-            if (latestFilledLine != null)
+            Line latestFilledLine = lineList.LastOrDefault(line => line.filled);
+            if (latestFilledLine != null )
             {
                 latestFilledLine.ResetLine();
                 startPoint = null;
@@ -217,6 +219,7 @@ public class GameManager : MonoBehaviour
             {
                 currentId = endPoint.Id;
                 lines[new Vector2Int(startPoint.Id, endPoint.Id)].ChangedColorLine();
+                lineList.AddRange(lines.Values);
                 startPoint = endPoint;
                 LineDraw.SetPosition(0, startPoint.Position);
                 LineDraw.SetPosition(1, startPoint.Position);
@@ -226,6 +229,8 @@ public class GameManager : MonoBehaviour
             {
                 currentId = endPoint.Id;
                 lines[new Vector2Int(startPoint.Id, endPoint.Id)].ChangedColorLine();
+                lineList.AddRange(lines.Values);
+
                 CheckToWin();
                 startPoint = endPoint;
                 LineDraw.SetPosition(0, startPoint.Position);

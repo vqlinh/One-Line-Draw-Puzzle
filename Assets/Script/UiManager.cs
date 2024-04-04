@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using CandyCoded.HapticFeedback;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class UiManager : Singleton<UiManager>
 {
+
     public void LightVib()
     {
         HapticFeedback.LightFeedback();
