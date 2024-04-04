@@ -1101,8 +1101,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3950fb60bb724a240a3bbc2c3d4ae2b0, type: 2}
   - {fileID: 11400000, guid: 596fdfa2a911fec42ac280a59a297879, type: 2}
   - {fileID: 11400000, guid: 14c9d083c9fbe1646b258b31b396cf7d, type: 2}
+  - {fileID: 11400000, guid: 372f8cf798847e540a7d1b3dc9e6f1aa, type: 2}
+  - {fileID: 11400000, guid: 22936f1b4d8a3a04dbb492b2338ae6ed, type: 2}
+  - {fileID: 11400000, guid: d8c1a28c2830ab74787760c68a4bdd20, type: 2}
+  - {fileID: 11400000, guid: 2eeceeed6fe62574c890871c6b641e18, type: 2}
+  - {fileID: 11400000, guid: 8a56a546afd32b64ab0bf56b04a8d2a7, type: 2}
+  - {fileID: 11400000, guid: 4919fbbbd29b74e4ca35828c08880279, type: 2}
+  - {fileID: 11400000, guid: 8e178c2cfcd80154c8f690db5696d390, type: 2}
+  - {fileID: 11400000, guid: 001e780df697a864ea4d8a13fef0deb3, type: 2}
   LineDraw: {fileID: 865183414}
-  levelChoose: 1
+  levelChoose: 10
   waveFormPrefabs: {fileID: 1465130111948049792, guid: d5c4671e95d42e240a78a056063bf89f, type: 3}
   lineDraws: []
 --- !u!4 &720643521
