@@ -16,7 +16,6 @@ public class UiManager : Singleton<UiManager>
     public void MediumVib()
     {
         HapticFeedback.MediumFeedback();
-        Debug.Log("MediumVib");
     }
     public void HeavyVib()
     {

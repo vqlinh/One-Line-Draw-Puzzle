@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System.Linq;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,13 +30,17 @@ public class GameManager : MonoBehaviour
     private Dictionary<int, Point> points;
     private Dictionary<Vector2Int, Line> lines;
     List<Line> lineList;
+    public int numberLevel;
+    private TextMeshProUGUI lv;
+    private int numberSelect;
     private void Awake()
     {
-        lineList=new List<Line>();
+        lineList =new List<Line>();
         finger = GameObject.Find("Finger");
         finger.SetActive(false);
         lineDraws = new List<GameObject>();
         listWave = new List<GameObject>();
+        lv = GameObject.Find("LevelNumber").GetComponent<TextMeshProUGUI>();
         canvas = GameObject.Find("CanvasWaveForm").GetComponent<Canvas>();
         isFinished = false;
         points = new Dictionary<int, Point>();
@@ -43,10 +48,14 @@ public class GameManager : MonoBehaviour
         LineDraw.gameObject.SetActive(false);
         currentId = -1;
 
-        Level levelStart = levels[LevelButton.Instance.numLevel];
+         numberSelect = PlayerPrefs.GetInt("SelectedLevel");
+        numberLevel = numberSelect;
+        Level levelStart = levels[numberSelect];
+        Debug.Log("numLevel : "+ numberLevel);
         LevelStart(levelStart);
         panelWin = GameObject.Find("CompleteLevel");
         panelWin.SetActive(false);
+        //PlayerPrefs.DeleteAll();
     }
 
     public void Hint()
@@ -102,18 +111,25 @@ public class GameManager : MonoBehaviour
             spawnLine.Init(points[normal.x].Position, points[normal.y].Position);
         }
         currentLevel = level;
+        lv.text = (levels.IndexOf(level) + 1).ToString();
+        //lv.text = currentLevel.ToString();
     }
 
     public void NextLevel()
     {
-        LevelButton.Instance.numLevel = levels.IndexOf(currentLevel);
-        if (LevelButton.Instance.numLevel == -1 || LevelButton.Instance.numLevel == levels.Count - 1) return;
-        int nextIndex = LevelButton.Instance.numLevel + 1;
-        Level NextLevel = levels[nextIndex];
+        //numberSelect++;
+        numberLevel++;
+        //Debug.Log("numberSelect : "+ numberSelect);
+        Debug.Log("numberLevel : " + numberLevel);
+
+        if (numberLevel == -1 || numberLevel == levels.Count - 1) return;
+        //int nextIndex = numberLevel + 1;
+        Level NextLevel = levels[numberLevel];
         ClearPreviousLevel();
         ClearWaveForm();
         LevelStart(NextLevel);
         startIndex = 0;
+
     }
 
     public void Replay()
@@ -224,6 +240,7 @@ public class GameManager : MonoBehaviour
                 LineDraw.SetPosition(0, startPoint.Position);
                 LineDraw.SetPosition(1, startPoint.Position);
                 WaveForm(startPoint.Position);
+                UiManager.Instance.MediumVib();
             }
             else if (IsEndConnect())
             {
@@ -236,6 +253,8 @@ public class GameManager : MonoBehaviour
                 LineDraw.SetPosition(0, startPoint.Position);
                 LineDraw.SetPosition(1, startPoint.Position);
                 WaveForm(startPoint.Position);
+                UiManager.Instance.MediumVib();
+
 
             }
         }
@@ -290,6 +309,8 @@ public class GameManager : MonoBehaviour
                 GameObject gameObject = listWave[i];
                 gameObject.SetActive(true);
             }
+            PlayerPrefs.SetInt("CompletedLevel", numberLevel);
+            PlayerPrefs.Save();
         }
     }
 
@@ -307,5 +328,6 @@ public class GameManager : MonoBehaviour
         }
         isFinished = true;
         StartCoroutine(ShowUiGameFinish());
+
     }
 }

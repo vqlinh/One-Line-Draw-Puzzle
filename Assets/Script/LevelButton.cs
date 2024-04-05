@@ -1,8 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
-using UnityEngine.Events;
 using TMPro;
+using UnityEngine.SceneManagement;
 public class LevelButton : MonoBehaviour
 {
     public static LevelButton Instance;
@@ -14,6 +14,16 @@ public class LevelButton : MonoBehaviour
 
     public int numLevel;
     public int nextLevel;
+    private Button button;
+    public void OnButtonClick()
+    {
+        // Lưu số numLevel vào PlayerPrefs
+        PlayerPrefs.SetInt("SelectedLevel", numLevel);
+        PlayerPrefs.Save(); // Lưu thay đổi
+
+        // Load scene mới
+        SceneManager.LoadScene("GamePlay");
+    }
 
     private void Awake()
     {
@@ -23,13 +33,17 @@ public class LevelButton : MonoBehaviour
         Assert.IsNotNull(buttonImg);
         Assert.IsNotNull(numberLevel);
         Instance = this;
+        numberLevel.text = numLevel.ToString();
+        //nextLevel = 1;
+        int nb =PlayerPrefs.GetInt("CompletedLevel");
+        nextLevel = nb + 1;
+        //PlayerPrefs.DeleteAll();
+        //button=GetComponent<Button>();
     }
 
     private void Start()
     {
-        numberLevel.text = numLevel.ToString();
-
-        nextLevel = PlayerPrefs.GetInt("next_level", 3);
+        Debug.Log("nextlevel : "+nextLevel);
         if (numLevel == nextLevel)
         {
             buttonImg.sprite = currentButton;
@@ -38,12 +52,15 @@ public class LevelButton : MonoBehaviour
         else if (numLevel < nextLevel)
         {
             buttonImg.sprite = playedButton;
-            numberLevel.gameObject.SetActive(false);
         }
         else
         {
             buttonImg.sprite = lockedButton;
             numberLevel.gameObject.SetActive(false);
+            button = GetComponentInChildren<Button>();
+
+            // Khóa button nếu numLevel lớn hơn nextLevel
+            button.interactable = false;
         }
 
     }
