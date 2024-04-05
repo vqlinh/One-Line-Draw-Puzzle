@@ -1110,9 +1110,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8e178c2cfcd80154c8f690db5696d390, type: 2}
   - {fileID: 11400000, guid: 001e780df697a864ea4d8a13fef0deb3, type: 2}
   LineDraw: {fileID: 865183414}
-  levelChoose: 10
   waveFormPrefabs: {fileID: 1465130111948049792, guid: d5c4671e95d42e240a78a056063bf89f, type: 3}
   lineDraws: []
+  numberLevel: 0
 --- !u!4 &720643521
 Transform:
   m_ObjectHideFlags: 0
@@ -1451,7 +1451,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 186, y: 11.818146}
+  m_AnchoredPosition: {x: 181, y: 11.818146}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &908128810
