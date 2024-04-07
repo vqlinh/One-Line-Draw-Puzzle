@@ -23,6 +23,7 @@ public class LevelButton : MonoBehaviour
             PlayerPrefs.SetInt("SelectedLevel", numLevel);
             PlayerPrefs.Save();
             SceneManager.LoadScene("GamePlay");
+            AudioManager.Instance.AudioButtonClick();
         }
     }
 

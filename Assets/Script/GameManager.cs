@@ -317,6 +317,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator ShowUiGameFinish()
     {
+        AudioManager.Instance.AudioWin();
         yield return new WaitForSeconds(2f);
         panelWin.SetActive(true);
     }

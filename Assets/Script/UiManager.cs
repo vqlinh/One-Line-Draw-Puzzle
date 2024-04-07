@@ -45,5 +45,6 @@ public class UiManager : Singleton<UiManager>
         PlayerPrefs.SetInt("SelectedLevel", nextlv);
         PlayerPrefs.Save();
         SceneManager.LoadScene("GamePlay");
+        AudioManager.Instance.AudioButtonClick();
     }
 }
