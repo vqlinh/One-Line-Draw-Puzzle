@@ -10,19 +10,20 @@ public class LevelButton : MonoBehaviour
     [SerializeField] private Sprite playedButton;
     [SerializeField] private Sprite lockedButton;
     [SerializeField] private Image buttonImg;
-    [SerializeField] private TextMeshProUGUI numberLevel;
+    [SerializeField] private TextMeshProUGUI txtNumberLevel;
 
     public int numLevel;
     public int nextLevel;
     private Button button;
+    private bool canClick = true;
     public void OnButtonClick()
     {
-        // Lưu số numLevel vào PlayerPrefs
-        PlayerPrefs.SetInt("SelectedLevel", numLevel);
-        PlayerPrefs.Save(); // Lưu thay đổi
-
-        // Load scene mới
-        SceneManager.LoadScene("GamePlay");
+        if (canClick)
+        {
+            PlayerPrefs.SetInt("SelectedLevel", numLevel);
+            PlayerPrefs.Save();
+            SceneManager.LoadScene("GamePlay");
+        }
     }
 
     private void Awake()
@@ -31,18 +32,18 @@ public class LevelButton : MonoBehaviour
         Assert.IsNotNull(playedButton);
         Assert.IsNotNull(lockedButton);
         Assert.IsNotNull(buttonImg);
-        Assert.IsNotNull(numberLevel);
+        Assert.IsNotNull(txtNumberLevel);
         Instance = this;
-        numberLevel.text = numLevel.ToString();
-        //nextLevel = 1;
+        txtNumberLevel.text = numLevel.ToString();
         int nb =PlayerPrefs.GetInt("CompletedLevel");
-        nextLevel = nb + 1;
+        nextLevel = nb+1;
+
         //PlayerPrefs.DeleteAll();
-        //button=GetComponent<Button>();
     }
 
     private void Start()
     {
+        button = GetComponent<Button>();
         Debug.Log("nextlevel : "+nextLevel);
         if (numLevel == nextLevel)
         {
@@ -56,14 +57,10 @@ public class LevelButton : MonoBehaviour
         else
         {
             buttonImg.sprite = lockedButton;
-            numberLevel.gameObject.SetActive(false);
-            button = GetComponentInChildren<Button>();
-
-            // Khóa button nếu numLevel lớn hơn nextLevel
+            txtNumberLevel.gameObject.SetActive(false);
             button.interactable = false;
+            canClick = false;
         }
 
     }
-
-  
 }

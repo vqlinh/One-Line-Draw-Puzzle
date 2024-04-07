@@ -4,9 +4,11 @@ using UnityEngine;
 using CandyCoded.HapticFeedback;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Unity.VisualScripting;
 
 public class UiManager : Singleton<UiManager>
 {
+    int number;
 
     public void LightVib()
     {
@@ -29,9 +31,19 @@ public class UiManager : Singleton<UiManager>
     public void LoadSceneGamePlay()
     {
         SceneManager.LoadScene("GamePlay");
+        
     } 
     public void LoadSceneHomeScene()
     {
         SceneManager.LoadScene("HomeScene");
+    }
+    public void OnButtonClick()
+    {
+        number = PlayerPrefs.GetInt("CompletedLevel");
+        int nextlv = number + 1;
+
+        PlayerPrefs.SetInt("SelectedLevel", nextlv);
+        PlayerPrefs.Save();
+        SceneManager.LoadScene("GamePlay");
     }
 }

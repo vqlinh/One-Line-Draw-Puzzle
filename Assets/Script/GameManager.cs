@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     private bool fingerMoving = false;
     private GameObject finger;
     private Canvas canvas;
-    //public int levelChoose;
+    public int levelChoose;
     private Level currentLevel;
     private List<GameObject> listWave;
     private GameObject previousWave;
@@ -50,7 +50,8 @@ public class GameManager : MonoBehaviour
 
          numberSelect = PlayerPrefs.GetInt("SelectedLevel");
         numberLevel = numberSelect;
-        Level levelStart = levels[numberSelect];
+        //Level levelStart = levels[numberSelect];
+        Level levelStart = levels[levelChoose];
         Debug.Log("numLevel : "+ numberLevel);
         LevelStart(levelStart);
         panelWin = GameObject.Find("CompleteLevel");
