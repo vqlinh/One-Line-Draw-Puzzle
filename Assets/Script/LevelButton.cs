@@ -27,7 +27,7 @@ public class LevelButton : MonoBehaviour
         }
         else
         {
-            RfHolder.Instance.panel.gameObject.SetActive(true);
+            RfHolder.Instance.panel.SetActive(true);
         }
     }
 
@@ -63,7 +63,6 @@ public class LevelButton : MonoBehaviour
         {
             buttonImg.sprite = lockedButton;
             txtNumberLevel.gameObject.SetActive(false);
-            button.interactable = false;
             canClick = false;
         }
 
