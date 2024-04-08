@@ -23,24 +23,30 @@ public class GameManager : MonoBehaviour
     public GameObject waveFormPrefabs;
     public List<GameObject> lineDraws;
 
+    private TextMeshProUGUI txtNumberHint;
+    private int numberHint;
     private int currentId;
     private bool isFinished;
     private GameObject panelWin;
+    private GameObject panelShop;
     private Point startPoint, endPoint;
     private Dictionary<int, Point> points;
     private Dictionary<Vector2Int, Line> lines;
     List<Line> lineList;
-    public int numberLevel;
+    private int numberLevel;
     private TextMeshProUGUI lv;
     private int numberSelect;
+    int nb;
     private void Awake()
     {
-        lineList =new List<Line>();
+        //PlayerPrefs.DeleteAll();
+        lineList = new List<Line>();
         finger = GameObject.Find("Finger");
         finger.SetActive(false);
         lineDraws = new List<GameObject>();
         listWave = new List<GameObject>();
         lv = GameObject.Find("LevelNumber").GetComponent<TextMeshProUGUI>();
+        txtNumberHint = GameObject.Find("TxtNumberHint").GetComponent<TextMeshProUGUI>();
         canvas = GameObject.Find("CanvasWaveForm").GetComponent<Canvas>();
         isFinished = false;
         points = new Dictionary<int, Point>();
@@ -48,48 +54,69 @@ public class GameManager : MonoBehaviour
         LineDraw.gameObject.SetActive(false);
         currentId = -1;
 
-         numberSelect = PlayerPrefs.GetInt("SelectedLevel");
-        numberLevel = numberSelect;
-        //Level levelStart = levels[numberSelect];
-        Level levelStart = levels[levelChoose];
-        Debug.Log("numLevel : "+ numberLevel);
+        numberSelect = PlayerPrefs.GetInt("SelectedLevel");
+        numberLevel = PlayerPrefs.GetInt("CompletedLevel", 0);
+        numberHint = PlayerPrefs.GetInt("NumberHint", 5);
+        txtNumberHint.text = numberHint.ToString();
+        Level levelStart = levels[numberSelect];
+        //Level levelStart = levels[levelChoose];
         LevelStart(levelStart);
         panelWin = GameObject.Find("CompleteLevel");
+        panelShop = GameObject.Find("PanelShop");
         panelWin.SetActive(false);
-        //PlayerPrefs.DeleteAll();
+        panelShop.SetActive(false);
     }
+
 
     public void Hint()
     {
         if (!isFinished)
         {
-            finger.SetActive(true);
+
             if (fingerMoving) return;
             fingerMoving = true;
-            Sequence sequence = DOTween.Sequence();
-
-            finger.transform.position = currentLevel.Points[Mathf.Min(startIndex, currentLevel.Points.Count - 1)];
-
-            int endIndex = Mathf.Min(startIndex + 4, currentLevel.Lines.Count);
-            for (int i = startIndex; i < endIndex; i++)
+            numberHint--;
+            PlayerPrefs.SetInt("NumberHint", numberHint);
+            PlayerPrefs.Save();
+            txtNumberHint.text = numberHint.ToString();
+            if (numberHint < 0)
             {
-                Vector2Int line = currentLevel.Lines[i];
-                Vector3 startPosition = points[line.x].Position;
-                Vector3 endPosition = points[line.y].Position;
-                sequence.Append(finger.transform.DOMove(startPosition, 0));
-                sequence.Append(finger.transform.DOMove(endPosition, 0.4f).SetEase(Ease.Linear));
+                numberHint = 0;
+                txtNumberHint.text = numberHint.ToString();
+
+                PlayerPrefs.SetInt("NumberHint", numberHint);
+                PlayerPrefs.Save();
+                panelShop.SetActive(true);
             }
-            startIndex = endIndex;
-            sequence.Append(finger.transform.DOScale(0.8f, 0.2f).SetLoops(2, LoopType.Yoyo));
-            sequence.AppendCallback(() =>
+            else
             {
-                finger.SetActive(false);    
-                fingerMoving = false;
-            });
+                finger.SetActive(true);
 
-            if (startIndex >= currentLevel.Lines.Count) startIndex = 0;
+                Sequence sequence = DOTween.Sequence();
+
+                finger.transform.position = currentLevel.Points[Mathf.Min(startIndex, currentLevel.Points.Count - 1)];
+
+                int endIndex = Mathf.Min(startIndex + 4, currentLevel.Lines.Count);
+                for (int i = startIndex; i < endIndex; i++)
+                {
+                    Vector2Int line = currentLevel.Lines[i];
+                    Vector3 startPosition = points[line.x].Position;
+                    Vector3 endPosition = points[line.y].Position;
+                    sequence.Append(finger.transform.DOMove(startPosition, 0));
+                    sequence.Append(finger.transform.DOMove(endPosition, 0.4f).SetEase(Ease.Linear));
+                }
+                startIndex = endIndex;
+                sequence.Append(finger.transform.DOScale(0.8f, 0.2f).SetLoops(2, LoopType.Yoyo));
+                sequence.AppendCallback(() =>
+                {
+                    finger.SetActive(false);
+                    fingerMoving = false;
+                });
+
+                if (startIndex >= currentLevel.Lines.Count) startIndex = 0;
+            }
         }
-        
+
     }
     private void LevelStart(Level level)
     {
@@ -118,18 +145,25 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        //numberSelect++;
-        numberLevel++;
-        //Debug.Log("numberSelect : "+ numberSelect);
-        Debug.Log("numberLevel : " + numberLevel);
+        numberSelect++;
+        if (numberSelect >numberLevel)
+        {
+
+            numberLevel++;
+        }
+        else return;
 
         if (numberLevel == -1 || numberLevel == levels.Count - 1) return;
-        //int nextIndex = numberLevel + 1;
         Level NextLevel = levels[numberLevel];
         ClearPreviousLevel();
         ClearWaveForm();
         LevelStart(NextLevel);
         startIndex = 0;
+        if (numberLevel >= numberSelect)
+        {
+            PlayerPrefs.SetInt("CompletedLevel", numberLevel);
+            PlayerPrefs.Save();
+        }
 
     }
 
@@ -175,7 +209,7 @@ public class GameManager : MonoBehaviour
 
     public void Undo() // chưa hoàn thiện 
     {
-        
+
         if (!isFinished && lineList.Count > 0)
         {
             //Line latestFilledLine = null;
@@ -199,17 +233,18 @@ public class GameManager : MonoBehaviour
             //    }
             //}
             Line latestFilledLine = lineList.LastOrDefault(line => line.filled);
-            if (latestFilledLine != null )
+            if (latestFilledLine != null)
             {
                 latestFilledLine.ResetLine();
                 startPoint = null;
-                endPoint= null;
+                endPoint = null;
                 currentId = -1;
             }
         }
     }
     private void Update()
     {
+        Debug.Log("numberSelect: " + numberSelect);
         if (isFinished) return;
 
         if (Input.GetMouseButtonDown(0))
@@ -242,6 +277,7 @@ public class GameManager : MonoBehaviour
                 LineDraw.SetPosition(1, startPoint.Position);
                 WaveForm(startPoint.Position);
                 UiManager.Instance.MediumVib();
+                AudioManager.Instance.AudioPointTouch();
             }
             else if (IsEndConnect())
             {
@@ -255,6 +291,7 @@ public class GameManager : MonoBehaviour
                 LineDraw.SetPosition(1, startPoint.Position);
                 WaveForm(startPoint.Position);
                 UiManager.Instance.MediumVib();
+                AudioManager.Instance.AudioPointTouch();
 
 
             }
@@ -310,15 +347,17 @@ public class GameManager : MonoBehaviour
                 GameObject gameObject = listWave[i];
                 gameObject.SetActive(true);
             }
-            PlayerPrefs.SetInt("CompletedLevel", numberLevel);
-            PlayerPrefs.Save();
+
+
         }
     }
 
     private IEnumerator ShowUiGameFinish()
     {
+        yield return new WaitForSeconds(1f);
+
         AudioManager.Instance.AudioWin();
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         panelWin.SetActive(true);
     }
 
@@ -332,4 +371,78 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ShowUiGameFinish());
 
     }
+    #region buy
+    public void Buy5hint()
+    {
+        numberHint += 5;
+        txtNumberHint.text = numberHint.ToString();
+
+        PlayerPrefs.SetInt("NumberHint", numberHint);
+        PlayerPrefs.Save();
+    }
+    public void Buy10hint()
+    {
+        numberHint += 10;
+        txtNumberHint.text = numberHint.ToString();
+
+        PlayerPrefs.SetInt("NumberHint", numberHint);
+        PlayerPrefs.Save();
+    }
+    public void Buy15hint()
+    {
+        numberHint += 15;
+        txtNumberHint.text = numberHint.ToString();
+
+        PlayerPrefs.SetInt("NumberHint", numberHint);
+        PlayerPrefs.Save();
+    }
+    public void Buy20hint()
+    {
+        numberHint += 20;
+        txtNumberHint.text = numberHint.ToString();
+
+        PlayerPrefs.SetInt("NumberHint", numberHint);
+        PlayerPrefs.Save();
+    }
+    public void Buy25hint()
+    {
+        numberHint += 25;
+        txtNumberHint.text = numberHint.ToString();
+
+        PlayerPrefs.SetInt("NumberHint", numberHint);
+        PlayerPrefs.Save();
+    }
+    public void Buy30hint()
+    {
+        numberHint += 30;
+        txtNumberHint.text = numberHint.ToString();
+
+        PlayerPrefs.SetInt("NumberHint", numberHint);
+        PlayerPrefs.Save();
+    }
+    public void Buy35hint()
+    {
+        numberHint += 35;
+        txtNumberHint.text = numberHint.ToString();
+
+        PlayerPrefs.SetInt("NumberHint", numberHint);
+        PlayerPrefs.Save();
+    }
+    public void Buy40hint()
+    {
+        numberHint += 40;
+        txtNumberHint.text = numberHint.ToString();
+
+        PlayerPrefs.SetInt("NumberHint", numberHint);
+        PlayerPrefs.Save();
+    }
+    public void Buy45hint()
+    {
+        numberHint += 45;
+        txtNumberHint.text = numberHint.ToString();
+
+        PlayerPrefs.SetInt("NumberHint", numberHint);
+        PlayerPrefs.Save();
+    }
+    #endregion
 }

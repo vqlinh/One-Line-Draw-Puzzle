@@ -40,7 +40,7 @@ public class UiManager : Singleton<UiManager>
     public void OnButtonClick()
     {
         number = PlayerPrefs.GetInt("CompletedLevel");
-        int nextlv = number + 1;
+        int nextlv = number;
 
         PlayerPrefs.SetInt("SelectedLevel", nextlv);
         PlayerPrefs.Save();

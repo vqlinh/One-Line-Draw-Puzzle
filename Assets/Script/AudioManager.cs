@@ -7,6 +7,7 @@ public class AudioManager : Singleton<AudioManager>
     public AudioSource audioSource;
     public AudioClip buttonClick;
     public AudioClip win;
+    public AudioClip pointTouch;
     private void Awake()
     {
         DontDestroyOnLoad(this);
@@ -31,5 +32,9 @@ public class AudioManager : Singleton<AudioManager>
     public void AudioWin()
     {
         audioSource.PlayOneShot(win);
+    }  
+    public void AudioPointTouch()
+    {
+        audioSource.PlayOneShot(pointTouch);
     }
 }

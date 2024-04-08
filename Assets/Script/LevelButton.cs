@@ -25,6 +25,10 @@ public class LevelButton : MonoBehaviour
             SceneManager.LoadScene("GamePlay");
             AudioManager.Instance.AudioButtonClick();
         }
+        else
+        {
+            RfHolder.Instance.panel.gameObject.SetActive(true);
+        }
     }
 
     private void Awake()
@@ -37,7 +41,7 @@ public class LevelButton : MonoBehaviour
         Instance = this;
         txtNumberLevel.text = numLevel.ToString();
         int nb =PlayerPrefs.GetInt("CompletedLevel");
-        nextLevel = nb+1;
+        nextLevel = nb;
 
         //PlayerPrefs.DeleteAll();
     }

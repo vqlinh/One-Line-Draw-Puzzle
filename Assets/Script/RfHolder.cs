@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class TextLevel : MonoBehaviour
+
+public class RfHolder : Singleton<RfHolder>
 {
     private GameObject panelLevel;
     public TextMeshProUGUI txtNumberLv;
+    public GameObject panel;
     private void Start()
     {
         panelLevel = GameObject.Find("PanelLevel");
@@ -16,6 +18,4 @@ public class TextLevel : MonoBehaviour
     {
         txtNumberLv.text = LevelButton.Instance.nextLevel.ToString();
     }
-
-
 }
