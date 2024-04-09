@@ -28,6 +28,7 @@ public class LevelButton : MonoBehaviour
         else
         {
             RfHolder.Instance.panel.SetActive(true);
+            AudioManager.Instance.AudioButtonClick();
         }
     }
 

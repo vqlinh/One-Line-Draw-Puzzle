@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
     private int numberLevel;
     private TextMeshProUGUI lv;
     private int numberSelect;
-    int nb;
     private void Awake()
     {
         //PlayerPrefs.DeleteAll();
@@ -57,7 +56,6 @@ public class GameManager : MonoBehaviour
         numberSelect = PlayerPrefs.GetInt("SelectedLevel");
         numberLevel = PlayerPrefs.GetInt("CompletedLevel", 0);
         numberHint = PlayerPrefs.GetInt("NumberHint", 5);
-        txtNumberHint.text = numberHint.ToString();
         Level levelStart = levels[numberSelect];
         //Level levelStart = levels[levelChoose];
         LevelStart(levelStart);
@@ -68,11 +66,17 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public void UpdateHint()
+    {
+        numberHint = PlayerPrefs.GetInt("NumberHint", 5);
+        txtNumberHint.text = numberHint.ToString();
+    }
+
     public void Hint()
     {
         if (!isFinished)
         {
-
+            AudioManager.Instance.AudioButtonClick();
             if (fingerMoving) return;
             fingerMoving = true;
             numberHint--;
@@ -103,7 +107,7 @@ public class GameManager : MonoBehaviour
                     Vector3 startPosition = points[line.x].Position;
                     Vector3 endPosition = points[line.y].Position;
                     sequence.Append(finger.transform.DOMove(startPosition, 0));
-                    sequence.Append(finger.transform.DOMove(endPosition, 0.4f).SetEase(Ease.Linear));
+                    sequence.Append(finger.transform.DOMove(endPosition, 0.6f).SetEase(Ease.Linear));
                 }
                 startIndex = endIndex;
                 sequence.Append(finger.transform.DOScale(0.8f, 0.2f).SetLoops(2, LoopType.Yoyo));
@@ -145,6 +149,7 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
+        AudioManager.Instance.AudioButtonClick();
         numberSelect++;
         if (numberSelect >numberLevel)
         {
@@ -171,6 +176,7 @@ public class GameManager : MonoBehaviour
     {
         if (!isFinished)
         {
+            AudioManager.Instance.AudioButtonClick();
             ClearPreviousLevel();
             ClearWaveForm();
             LevelStart(currentLevel);
@@ -212,6 +218,7 @@ public class GameManager : MonoBehaviour
 
         if (!isFinished && lineList.Count > 0)
         {
+            AudioManager.Instance.AudioButtonClick();
             //Line latestFilledLine = null;
             //lineList.Reverse();
             //for (int i = lineList.Count - 1; i >= 0; i--)
@@ -244,6 +251,7 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
+        UpdateHint();
         Debug.Log("numberSelect: " + numberSelect);
         if (isFinished) return;
 
@@ -371,78 +379,8 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ShowUiGameFinish());
 
     }
-    #region buy
-    public void Buy5hint()
+    public void ButtonClick()
     {
-        numberHint += 5;
-        txtNumberHint.text = numberHint.ToString();
-
-        PlayerPrefs.SetInt("NumberHint", numberHint);
-        PlayerPrefs.Save();
+        AudioManager.Instance.AudioButtonClick();
     }
-    public void Buy10hint()
-    {
-        numberHint += 10;
-        txtNumberHint.text = numberHint.ToString();
-
-        PlayerPrefs.SetInt("NumberHint", numberHint);
-        PlayerPrefs.Save();
-    }
-    public void Buy15hint()
-    {
-        numberHint += 15;
-        txtNumberHint.text = numberHint.ToString();
-
-        PlayerPrefs.SetInt("NumberHint", numberHint);
-        PlayerPrefs.Save();
-    }
-    public void Buy20hint()
-    {
-        numberHint += 20;
-        txtNumberHint.text = numberHint.ToString();
-
-        PlayerPrefs.SetInt("NumberHint", numberHint);
-        PlayerPrefs.Save();
-    }
-    public void Buy25hint()
-    {
-        numberHint += 25;
-        txtNumberHint.text = numberHint.ToString();
-
-        PlayerPrefs.SetInt("NumberHint", numberHint);
-        PlayerPrefs.Save();
-    }
-    public void Buy30hint()
-    {
-        numberHint += 30;
-        txtNumberHint.text = numberHint.ToString();
-
-        PlayerPrefs.SetInt("NumberHint", numberHint);
-        PlayerPrefs.Save();
-    }
-    public void Buy35hint()
-    {
-        numberHint += 35;
-        txtNumberHint.text = numberHint.ToString();
-
-        PlayerPrefs.SetInt("NumberHint", numberHint);
-        PlayerPrefs.Save();
-    }
-    public void Buy40hint()
-    {
-        numberHint += 40;
-        txtNumberHint.text = numberHint.ToString();
-
-        PlayerPrefs.SetInt("NumberHint", numberHint);
-        PlayerPrefs.Save();
-    }
-    public void Buy45hint()
-    {
-        numberHint += 45;
-        txtNumberHint.text = numberHint.ToString();
-
-        PlayerPrefs.SetInt("NumberHint", numberHint);
-        PlayerPrefs.Save();
-    }
-    #endregion
 }

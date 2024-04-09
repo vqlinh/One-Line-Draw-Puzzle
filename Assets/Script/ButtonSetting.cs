@@ -3,35 +3,36 @@ using UnityEngine.UI;
 
 public class ButtonSetting : MonoBehaviour
 {
-    public GameObject objectToToggle; 
-    public string playerPrefsKey; 
-
-    private bool isObjectActive = true; 
+    public GameObject imgOn; 
+    public string key;
+    private bool isActive = true; 
 
     private void Start()
     {
-        LoadToggleState();
+        LoadState();
+        AudioManager.Instance.SetActive(isActive);
     }
 
     public void Toggle()
     {
-        isObjectActive = !isObjectActive;
-        objectToToggle.SetActive(isObjectActive);
+        isActive = !isActive;
+        imgOn.SetActive(isActive);
 
-        SaveToggleState();
+        SaveState();
+        AudioManager.Instance.SetActive(isActive);
     }
 
-    private void SaveToggleState()
+    private void SaveState()
     {
-        int stateToSave = isObjectActive ? 1 : 0;
-        PlayerPrefs.SetInt(playerPrefsKey, stateToSave);
+        int numberSave = isActive ? 1 : 0;
+        PlayerPrefs.SetInt(key, numberSave);
         PlayerPrefs.Save();
     }
 
-    private void LoadToggleState()
+    private void LoadState()
     {
-        int savedState = PlayerPrefs.GetInt(playerPrefsKey, 1); 
-        isObjectActive = savedState == 1;
-        objectToToggle.SetActive(isObjectActive);
+        int numberSavedState = PlayerPrefs.GetInt(key, 1); 
+        isActive = numberSavedState == 1;
+        imgOn.SetActive(isActive);
     }
 }

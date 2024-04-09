@@ -14,6 +14,7 @@ public class RfHolder : Singleton<RfHolder>
     private GameObject panelLevel;
     public TextMeshProUGUI txtNumberLv;
     public GameObject panel;
+
     private void Start()
     {
         panelLevel = GameObject.Find("PanelLevel");
@@ -48,7 +49,9 @@ public class RfHolder : Singleton<RfHolder>
             lines[reversed] = spawnLine;
             spawnLine.Init(points[normal.x].Position, points[normal.y].Position);
         }
-
-        //lv.text = currentLevel.ToString();
+    }
+    public void ButtonClick()
+    {
+        AudioManager.Instance.AudioButtonClick();
     }
 }
