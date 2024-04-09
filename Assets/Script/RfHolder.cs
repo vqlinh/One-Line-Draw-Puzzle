@@ -1,5 +1,7 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 
@@ -14,20 +16,26 @@ public class RfHolder : Singleton<RfHolder>
     private GameObject panelLevel;
     public TextMeshProUGUI txtNumberLv;
     public GameObject panel;
-
+    private int startIndex = 0;
+    private bool fingerMoving = false;
+    private GameObject finger;
+    private Level levelStart;
     private void Start()
     {
+        finger = GameObject.Find("Finger");
+        finger.SetActive(false);
         panelLevel = GameObject.Find("PanelLevel");
         panelLevel.SetActive(false);
         lines = new Dictionary<Vector2Int, Line>();
         points = new Dictionary<int, Point>();
-        Level levelStart = levels[0];
+        levelStart = levels[0];
         LevelStart(levelStart);
-
+        txtNumberLv.text = LevelButton.Instance.nextLevel.ToString();
+        InvokeRepeating("Hint", 1f, 2f);
     }
     private void Update()
     {
-        txtNumberLv.text = LevelButton.Instance.nextLevel.ToString();
+
     }
     private void LevelStart(Level level)
     {
@@ -49,6 +57,35 @@ public class RfHolder : Singleton<RfHolder>
             lines[reversed] = spawnLine;
             spawnLine.Init(points[normal.x].Position, points[normal.y].Position);
         }
+    }
+
+    public void Hint()
+    {
+        if (fingerMoving) return;
+        fingerMoving = true;
+        finger.SetActive(true);
+        Sequence sequence = DOTween.Sequence();
+
+        finger.transform.position = levelStart.Points[Mathf.Min(startIndex, levelStart.Points.Count - 1)];
+
+        int endIndex = Mathf.Min(startIndex + 4, levelStart.Lines.Count);
+        for (int i = startIndex; i < endIndex; i++)
+        {
+            Vector2Int line = levelStart.Lines[i];
+            Vector3 startPosition = points[line.x].Position;
+            Vector3 endPosition = points[line.y].Position;
+            sequence.Append(finger.transform.DOMove(startPosition, 0));
+            sequence.Append(finger.transform.DOMove(endPosition, 0.6f).SetEase(Ease.Linear));
+        }
+        startIndex = endIndex;
+        sequence.Append(finger.transform.DOScale(0.8f, 0.2f).SetLoops(2, LoopType.Yoyo));
+        sequence.AppendCallback(() =>
+        {
+            finger.SetActive(false);
+            fingerMoving = false;
+        });
+
+        if (startIndex >= levelStart.Lines.Count) startIndex = 0;
     }
     public void ButtonClick()
     {
