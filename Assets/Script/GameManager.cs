@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
 
     public void Hint()
     {
+
         if (!isFinished)
         {
             AudioManager.Instance.AudioButtonClick();
@@ -81,8 +82,8 @@ public class GameManager : MonoBehaviour
             numberHint--;
             PlayerPrefs.SetInt("NumberHint", numberHint);
             PlayerPrefs.Save();
-
             txtNumberHint.text = numberHint.ToString();
+
             if (numberHint < 0)
             {
                 numberHint = 0;
@@ -92,7 +93,7 @@ public class GameManager : MonoBehaviour
                 PlayerPrefs.Save();
                 panelShop.SetActive(true);
             }
-            else
+            else 
             {
                 finger.SetActive(true);
                 Sequence sequence = DOTween.Sequence();
@@ -147,7 +148,7 @@ public class GameManager : MonoBehaviour
     {
         AudioManager.Instance.AudioButtonClick();
         numberSelect++;
-        if (numberSelect >numberLevel) numberLevel++;
+        if (numberSelect > numberLevel) numberLevel++;
         else return;
         if (numberLevel == -1 || numberLevel == levels.Count - 1) return;
         Level NextLevel = levels[numberLevel];
@@ -286,7 +287,7 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    private bool IsEndConnect() 
+    private bool IsEndConnect()
     {
         if (currentId != startPoint.Id) return false;
 
