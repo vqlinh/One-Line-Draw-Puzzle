@@ -34,5 +34,6 @@ public class ButtonSetting : MonoBehaviour
         int numberSavedState = PlayerPrefs.GetInt(key, 1); 
         isActive = numberSavedState == 1;
         imgOn.SetActive(isActive);
+        AudioManager.Instance.SetActive(isActive);
     }
 }
