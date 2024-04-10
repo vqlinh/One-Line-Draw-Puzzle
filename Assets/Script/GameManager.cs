@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
         panelShop = GameObject.Find("PanelShop");
         panelWin.SetActive(false);
         panelShop.SetActive(false);
+        UpdateHint();
     }
 
 
@@ -68,7 +69,9 @@ public class GameManager : MonoBehaviour
     {
         numberHint = PlayerPrefs.GetInt("NumberHint", 5);
         txtNumberHint.text = numberHint.ToString();
+        Debug.Log("UpdateHint");
     }
+    
 
     public void Hint()
     {
@@ -80,6 +83,7 @@ public class GameManager : MonoBehaviour
             numberHint--;
             PlayerPrefs.SetInt("NumberHint", numberHint);
             PlayerPrefs.Save();
+
             txtNumberHint.text = numberHint.ToString();
             if (numberHint < 0)
             {
@@ -249,7 +253,7 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        UpdateHint();
+        //UpdateHint();
         Debug.Log("numberSelect: " + numberSelect);
         if (isFinished) return;
 

@@ -27,7 +27,7 @@ public class LevelButton : MonoBehaviour
         }
         else
         {
-            RfHolder.Instance.panel.SetActive(true);
+            RfHolder.Instance.panelMessageLocked.SetActive(true);
             AudioManager.Instance.AudioButtonClick();
         }
     }
@@ -43,8 +43,6 @@ public class LevelButton : MonoBehaviour
         txtNumberLevel.text = numLevel.ToString();
         int nb =PlayerPrefs.GetInt("CompletedLevel");
         nextLevel = nb;
-
-        //PlayerPrefs.DeleteAll();
     }
 
     private void Start()

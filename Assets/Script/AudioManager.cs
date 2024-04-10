@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AudioManager : Singleton<AudioManager>
 {
@@ -10,17 +8,6 @@ public class AudioManager : Singleton<AudioManager>
     public AudioClip pointTouch;
     public AudioClip buttonClick;
     public AudioSource audioSource;
-    public void SetActive(bool isActive)
-    {
-        if (isActive)
-        {
-            audioSource.volume = 1f;
-        }
-        else
-        {
-            audioSource.volume = 0f;
-        }
-    }
 
     private void Awake()
     {
@@ -34,12 +21,10 @@ public class AudioManager : Singleton<AudioManager>
         Background();
     }
 
-    void Start()
+    public void SetActive(bool isActive)
     {
-        if (Instance == this)
-        {
-            //Background();
-        }
+        if (isActive) audioSource.volume = 1f;
+        else audioSource.volume = 0f;
     }
 
     public void Background()

@@ -15,7 +15,7 @@ public class RfHolder : Singleton<RfHolder>
     private Dictionary<int, Point> points;
     private GameObject panelLevel;
     public TextMeshProUGUI txtNumberLv;
-    public GameObject panel;
+    public GameObject panelMessageLocked;
     private int startIndex = 0;
     private bool fingerMoving = false;
     private GameObject finger;
@@ -23,8 +23,8 @@ public class RfHolder : Singleton<RfHolder>
     private void Start()
     {
         finger = GameObject.Find("Finger");
-        finger.SetActive(false);
         panelLevel = GameObject.Find("PanelLevel");
+        finger.SetActive(false);
         panelLevel.SetActive(false);
         lines = new Dictionary<Vector2Int, Line>();
         points = new Dictionary<int, Point>();
@@ -33,10 +33,7 @@ public class RfHolder : Singleton<RfHolder>
         txtNumberLv.text = LevelButton.Instance.nextLevel.ToString();
         InvokeRepeating("Hint", 1f, 2f);
     }
-    private void Update()
-    {
 
-    }
     private void LevelStart(Level level)
     {
         for (int i = 0; i < level.Points.Count; i++)
