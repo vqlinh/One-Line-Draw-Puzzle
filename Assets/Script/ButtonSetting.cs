@@ -12,7 +12,7 @@ public class ButtonSetting : MonoBehaviour
         LoadState();
         AudioManager.Instance.SetActive(isActive);
     }
-
+    
     public void Toggle()
     {
         isActive = !isActive;

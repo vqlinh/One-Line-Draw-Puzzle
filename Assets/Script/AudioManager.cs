@@ -10,17 +10,14 @@ public class AudioManager : Singleton<AudioManager>
     public AudioClip pointTouch;
     public AudioClip buttonClick;
     public AudioSource audioSource;
-
     public void SetActive(bool isActive)
     {
         if (isActive)
         {
-            //PlayBackgroundMusic();
             audioSource.volume = 1f;
         }
         else
         {
-            //StopAllAudio();
             audioSource.volume = 0f;
         }
     }
@@ -34,14 +31,14 @@ public class AudioManager : Singleton<AudioManager>
         }
         DontDestroyOnLoad(gameObject);
         audioSource = GetComponent<AudioSource>();
+        Background();
     }
 
     void Start()
     {
         if (Instance == this)
         {
-            SetActive(true);
-            Background();
+            //Background();
         }
     }
 
