@@ -12,23 +12,23 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Level> levels;
     [SerializeField] private LineRenderer LineDraw;
 
-    private int startIndex = 0;
-    private bool fingerMoving = false;
-    private GameObject finger;
     private Canvas canvas;
+    private GameObject finger;
     private Level currentLevel;
-    private List<GameObject> listWave;
+    private int startIndex = 0;
     private GameObject previousWave;
+    private List<GameObject> listWave;
+    private bool fingerMoving = false;
     public GameObject waveFormPrefabs;
     public List<GameObject> lineDraws;
 
-    private TextMeshProUGUI txtNumberHint;
-    private int numberHint;
     private int currentId;
+    private int numberHint;
     private bool isFinished;
     private GameObject panelWin;
     private GameObject panelShop;
     private Point startPoint, endPoint;
+    private TextMeshProUGUI txtNumberHint;
     private Dictionary<int, Point> points;
     private Dictionary<Vector2Int, Line> lines;
     List<Line> lineList;
@@ -69,9 +69,7 @@ public class GameManager : MonoBehaviour
     {
         numberHint = PlayerPrefs.GetInt("NumberHint", 5);
         txtNumberHint.text = numberHint.ToString();
-        Debug.Log("UpdateHint");
     }
-    
 
     public void Hint()
     {
@@ -97,11 +95,8 @@ public class GameManager : MonoBehaviour
             else
             {
                 finger.SetActive(true);
-
                 Sequence sequence = DOTween.Sequence();
-
                 finger.transform.position = currentLevel.Points[Mathf.Min(startIndex, currentLevel.Points.Count - 1)];
-
                 int endIndex = Mathf.Min(startIndex + 4, currentLevel.Lines.Count);
                 for (int i = startIndex; i < endIndex; i++)
                 {
@@ -109,7 +104,7 @@ public class GameManager : MonoBehaviour
                     Vector3 startPosition = points[line.x].Position;
                     Vector3 endPosition = points[line.y].Position;
                     sequence.Append(finger.transform.DOMove(startPosition, 0));
-                    sequence.Append(finger.transform.DOMove(endPosition, 0.6f).SetEase(Ease.Linear));
+                    sequence.Append(finger.transform.DOMove(endPosition, 0.2f).SetEase(Ease.Linear));
                 }
                 startIndex = endIndex;
                 sequence.Append(finger.transform.DOScale(0.8f, 0.2f).SetLoops(2, LoopType.Yoyo));
@@ -122,8 +117,8 @@ public class GameManager : MonoBehaviour
                 if (startIndex >= currentLevel.Lines.Count) startIndex = 0;
             }
         }
-
     }
+
     private void LevelStart(Level level)
     {
         for (int i = 0; i < level.Points.Count; i++)
@@ -146,20 +141,14 @@ public class GameManager : MonoBehaviour
         }
         currentLevel = level;
         lv.text = (levels.IndexOf(level) + 1).ToString();
-        //lv.text = currentLevel.ToString();
     }
 
     public void NextLevel()
     {
         AudioManager.Instance.AudioButtonClick();
         numberSelect++;
-        if (numberSelect >numberLevel)
-        {
-
-            numberLevel++;
-        }
+        if (numberSelect >numberLevel) numberLevel++;
         else return;
-
         if (numberLevel == -1 || numberLevel == levels.Count - 1) return;
         Level NextLevel = levels[numberLevel];
         ClearPreviousLevel();
@@ -171,7 +160,6 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("CompletedLevel", numberLevel);
             PlayerPrefs.Save();
         }
-
     }
 
     public void Replay()
@@ -185,7 +173,6 @@ public class GameManager : MonoBehaviour
         }
 
     }
-
 
     private void ClearWaveForm()
     {
@@ -215,32 +202,11 @@ public class GameManager : MonoBehaviour
         lines.Clear();
     }
 
-    public void Undo() // chưa hoàn thiện 
+    public void Undo()
     {
-
         if (!isFinished && lineList.Count > 0)
         {
             AudioManager.Instance.AudioButtonClick();
-            //Line latestFilledLine = null;
-            //lineList.Reverse();
-            //for (int i = lineList.Count - 1; i >= 0; i--)
-            //{
-            //    if (lineList[i].filled)
-            //    {
-            //        latestFilledLine = lineList[i];
-            //        Debug.Log("11");
-            //        break;
-            //    }
-            //}
-            //foreach (var line in lineList)
-            //{
-            //    if (line.filled)
-            //    {
-            //        Debug.Log(line.filled);
-            //        latestFilledLine = line;
-            //        break;
-            //    }
-            //}
             Line latestFilledLine = lineList.LastOrDefault(line => line.filled);
             if (latestFilledLine != null)
             {
@@ -251,10 +217,9 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
     private void Update()
     {
-        //UpdateHint();
-        Debug.Log("numberSelect: " + numberSelect);
         if (isFinished) return;
 
         if (Input.GetMouseButtonDown(0))
@@ -302,8 +267,6 @@ public class GameManager : MonoBehaviour
                 WaveForm(startPoint.Position);
                 UiManager.Instance.MediumVib();
                 AudioManager.Instance.AudioPointTouch();
-
-
             }
         }
         else if (Input.GetMouseButtonUp(0))
@@ -319,11 +282,11 @@ public class GameManager : MonoBehaviour
     {
         if (currentId != -1) return false;
         Vector2Int line = new Vector2Int(startPoint.Id, endPoint.Id);
-        if (!lines.ContainsKey(line)) return false; // check xem lúc bắt đầu game có line giữa 2 điểm chưa, nếu k có thì false ( nếu true thì vẽ dược)
+        if (!lines.ContainsKey(line)) return false;
         return true;
     }
 
-    private bool IsEndConnect() //Kiểm tra xem có thể kết thúc cạnh ở điểm hiện tại không.
+    private bool IsEndConnect() 
     {
         if (currentId != startPoint.Id) return false;
 
@@ -357,8 +320,6 @@ public class GameManager : MonoBehaviour
                 GameObject gameObject = listWave[i];
                 gameObject.SetActive(true);
             }
-
-
         }
     }
 
@@ -379,8 +340,8 @@ public class GameManager : MonoBehaviour
         }
         isFinished = true;
         StartCoroutine(ShowUiGameFinish());
-
     }
+
     public void ButtonClick()
     {
         AudioManager.Instance.AudioButtonClick();

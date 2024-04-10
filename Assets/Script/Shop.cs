@@ -13,6 +13,7 @@ public class Shop : MonoBehaviour
 
     public void BuyHint(int hint)
     {
+        numberHint = PlayerPrefs.GetInt("NumberHint");
         numberHint += hint;
         Save();
         AudioManager.Instance.AudioBought();
