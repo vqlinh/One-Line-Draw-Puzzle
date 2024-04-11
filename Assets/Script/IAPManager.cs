@@ -18,14 +18,14 @@ public class IAPManager : MonoBehaviour, IStoreListener
 {
  //   public ShopController shopController;
     public ConsumableItem[] listItems;
-    const string COIN_5 = "coin_5";
-    const string COIN_11 = "coin_11";
-    const string COIN_17 = "coin_17";
-    const string COIN_23 = "coin_23";
-    const string COIN_29 = "coin_29";
-    const string COIN_35 = "coin_35";
-    const string COIN_41 = "coin_41";
-    const string COIN_47 = "coin_47";
+    const string COIN_5 = "com.onelinedrawpuzzle.pack1";
+    const string COIN_11 = "com.onelinedrawpuzzle.pack2";
+    const string COIN_17 = "com.onelinedrawpuzzle.pack3";
+    const string COIN_23 = "com.onelinedrawpuzzle.pack4";
+    const string COIN_29 = "com.onelinedrawpuzzle.pack5";
+    const string COIN_35 = "com.onelinedrawpuzzle.pack6";
+    const string COIN_41 = "com.onelinedrawpuzzle.pack7";
+    const string COIN_47 = "com.onelinedrawpuzzle.pack8";
 
     IStoreController m_StoreController;
     // void Start()
