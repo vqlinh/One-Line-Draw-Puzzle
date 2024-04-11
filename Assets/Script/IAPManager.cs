@@ -16,7 +16,7 @@ public class ConsumableItem {
 [System.Serializable]
 public class IAPManager : MonoBehaviour, IStoreListener
 {
-    public ShopController shopController;
+ //   public ShopController shopController;
     public ConsumableItem[] listItems;
     const string COIN_5 = "coin_5";
     const string COIN_11 = "coin_11";
@@ -94,42 +94,42 @@ public class IAPManager : MonoBehaviour, IStoreListener
         {
             //Add Coins
             Debug.Log("Plus 5 coins");
-            shopController.AddCoin(5);
+         //   shopController.AddCoin(5);
         }
         else if (product.definition.id == COIN_11)
         {
             Debug.Log("Plus 11 coins");
-            shopController.AddCoin(11);
+      //      shopController.AddCoin(11);
         }
         else if (product.definition.id == COIN_17)
         {
             Debug.Log("Plus 17 coins");
-            shopController.AddCoin(17);
+       //     shopController.AddCoin(17);
         }
         else if (product.definition.id == COIN_23)
         {
             Debug.Log("Plus 23 coins");
-            shopController.AddCoin(23);
+        //    shopController.AddCoin(23);
         }
         else if (product.definition.id == COIN_29)
         {
             Debug.Log("Plus 29 coins");
-            shopController.AddCoin(29);
+     //       shopController.AddCoin(29);
         }
         else if (product.definition.id == COIN_35)
         {
             Debug.Log("Plus 35 coins");
-            shopController.AddCoin(35);
+     //      shopController.AddCoin(35);
         }
         else if (product.definition.id == COIN_41)
         {
             Debug.Log("Plus 41 coins");
-            shopController.AddCoin(41);
+     //       shopController.AddCoin(41);
         }
         else if (product.definition.id == COIN_47)
         {
             Debug.Log("Plus 47 coins");
-            shopController.AddCoin(47);
+      //      shopController.AddCoin(47);
         }
         return PurchaseProcessingResult.Complete;
     }
