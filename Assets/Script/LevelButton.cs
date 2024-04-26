@@ -40,7 +40,7 @@ public class LevelButton : MonoBehaviour
         Assert.IsNotNull(buttonImg);
         Assert.IsNotNull(txtNumberLevel);
         Instance = this;
-        txtNumberLevel.text = numLevel.ToString();
+        txtNumberLevel.text = (numLevel+1).ToString();
         int nb =PlayerPrefs.GetInt("CompletedLevel");
         nextLevel = nb;
     }

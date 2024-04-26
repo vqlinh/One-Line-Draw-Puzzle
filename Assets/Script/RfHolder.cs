@@ -30,7 +30,7 @@ public class RfHolder : Singleton<RfHolder>
         points = new Dictionary<int, Point>();
         levelStart = levels[0];
         LevelStart(levelStart);
-        txtNumberLv.text = LevelButton.Instance.nextLevel.ToString();
+        txtNumberLv.text = (LevelButton.Instance.nextLevel+1).ToString();
         InvokeRepeating("Hint", 1f, 2f);
     }
 
