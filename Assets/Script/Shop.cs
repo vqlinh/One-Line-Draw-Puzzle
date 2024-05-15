@@ -4,24 +4,15 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
-    int numberHint;
-    private void Awake()
-    {
-        numberHint = PlayerPrefs.GetInt("NumberHint",5);
-        Save();
+    public IAPManager iAPManager;
+
+    private void Start(){
+        iAPManager.SetupBuilder();
     }
 
-    public void BuyHint(int hint)
+    public void BuyHint(int pos)
     {
-        numberHint = PlayerPrefs.GetInt("NumberHint");
-        numberHint += hint;
-        Save();
         AudioManager.Instance.AudioBought();
-    }
-
-    void Save()
-    {
-        PlayerPrefs.SetInt("NumberHint", numberHint);
-        PlayerPrefs.Save();
+        iAPManager.HandleInitiatePurchase(pos);
     }
 }

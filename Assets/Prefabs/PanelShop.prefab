@@ -2553,26 +2553,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5749266394655505155}
+      - m_Target: {fileID: 8938132774050937161}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
         m_MethodName: BuyHint
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 25
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2616753486157424543, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 5
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
@@ -2700,26 +2688,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5749266394655505155}
+      - m_Target: {fileID: 8938132774050937161}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
         m_MethodName: BuyHint
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 15
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2616753486157424543, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
@@ -2808,7 +2784,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2115332412502761542
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2826,9 +2802,9 @@ RectTransform:
   m_Father: {fileID: 2115332412429646669}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 355.15836, y: -70}
   m_SizeDelta: {x: 140, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2115332412502761657
@@ -2913,7 +2889,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5749266394655505155}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
         m_MethodName: BuyHint
         m_Mode: 3
@@ -3060,26 +3036,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5749266394655505155}
+      - m_Target: {fileID: 8938132774050937161}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
         m_MethodName: BuyHint
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 10
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2616753486157424543, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
@@ -3207,26 +3171,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5749266394655505155}
+      - m_Target: {fileID: 8938132774050937161}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
         m_MethodName: BuyHint
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 40
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2616753486157424543, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 8
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
@@ -3354,26 +3306,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5749266394655505155}
+      - m_Target: {fileID: 8938132774050937161}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
         m_MethodName: BuyHint
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 30
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2616753486157424543, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 6
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
@@ -3567,26 +3507,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5749266394655505155}
+      - m_Target: {fileID: 8938132774050937161}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
         m_MethodName: BuyHint
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 5
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2616753486157424543, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
@@ -3714,26 +3642,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5749266394655505155}
+      - m_Target: {fileID: 8938132774050937161}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
         m_MethodName: BuyHint
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 35
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2616753486157424543, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 7
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
@@ -4048,7 +3964,8 @@ GameObject:
   - component: {fileID: 2115332413400283843}
   - component: {fileID: 2115332413400283845}
   - component: {fileID: 2115332413400283844}
-  - component: {fileID: 5749266394655505155}
+  - component: {fileID: 8938132774050937161}
+  - component: {fileID: 847878204169522981}
   m_Layer: 5
   m_Name: PanelShop
   m_TagString: Untagged
@@ -4073,6 +3990,7 @@ RectTransform:
   - {fileID: 2115332413118977598}
   - {fileID: 2115332413321543831}
   - {fileID: 2115332412429646669}
+  - {fileID: 6076822439401154203}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4119,7 +4037,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5749266394655505155
+--- !u!114 &8938132774050937161
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4131,6 +4049,88 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ade05f1aa58324b9d5e243f6aabe06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iAPManager: {fileID: 847878204169522981}
+--- !u!114 &847878204169522981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115332413400283842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc58dc1753920ff409c74260210178bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listItems:
+  - Name: 
+    Id: com.onelinedrawpuzzle.pack1
+    desc: 
+    price: 0
+  - Name: 
+    Id: com.onelinedrawpuzzle.pack2
+    desc: 
+    price: 0
+  - Name: 
+    Id: com.onelinedrawpuzzle.pack3
+    desc: 
+    price: 0
+  - Name: 
+    Id: com.onelinedrawpuzzle.pack4
+    desc: 
+    price: 0
+  - Name: 
+    Id: com.onelinedrawpuzzle.pack5
+    desc: 
+    price: 0
+  - Name: 
+    Id: com.onelinedrawpuzzle.pack6
+    desc: 
+    price: 0
+  - Name: 
+    Id: com.onelinedrawpuzzle.pack7
+    desc: 
+    price: 0
+  - Name: 
+    Id: com.onelinedrawpuzzle.pack8
+    desc: 
+    price: 0
+  listTextPrice:
+  - {fileID: 2116224494}
+  - {fileID: 199273401}
+  - {fileID: 504787926}
+  - {fileID: 2093537610}
+  - {fileID: 2030238761}
+  - {fileID: 694653077}
+  - {fileID: 1701898636}
+  - {fileID: 937841958}
+  MessageSuccess: {fileID: 8155366175644963458}
+  data:
+    Payload: 
+    Store: 
+    TransactionID: 
+  payload:
+    json: 
+    signature: 
+    skuDetails: []
+    payloadData:
+      orderId: 
+      packageName: 
+      productId: 
+      purchaseTime: 0
+      purchaseState: 0
+      purchaseToken: 
+      quantity: 0
+      acknowledged: 0
+  payloadData:
+    orderId: 
+    packageName: 
+    productId: 
+    purchaseTime: 0
+    purchaseState: 0
+    purchaseToken: 
+    quantity: 0
+    acknowledged: 0
 --- !u!1 &2115332413564165871
 GameObject:
   m_ObjectHideFlags: 0
@@ -4254,27 +4254,126 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5749266394655505155}
+      - m_Target: {fileID: 8938132774050937161}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
         m_MethodName: BuyHint
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 20
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2616753486157424543, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!1001 &6160147200193099037
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2115332413400283843}
+    m_Modifications:
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616753486157424543, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_Name
+      value: PanelMessageBuySuccess
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616753486157424543, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+--- !u!224 &6076822439401154203 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 83326430460547974, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+  m_PrefabInstance: {fileID: 6160147200193099037}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8155366175644963458 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2616753486157424543, guid: e4070d8d108ee4547be2d263c7cc2172, type: 3}
+  m_PrefabInstance: {fileID: 6160147200193099037}
+  m_PrefabAsset: {fileID: 0}

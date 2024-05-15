@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 
 [System.Serializable]
@@ -16,22 +17,24 @@ public class ConsumableItem {
 [System.Serializable]
 public class IAPManager : MonoBehaviour, IStoreListener
 {
- //   public ShopController shopController;
     public ConsumableItem[] listItems;
-    const string COIN_5 = "coin_5";
-    const string COIN_11 = "coin_11";
-    const string COIN_17 = "coin_17";
-    const string COIN_23 = "coin_23";
-    const string COIN_29 = "coin_29";
-    const string COIN_35 = "coin_35";
-    const string COIN_41 = "coin_41";
-    const string COIN_47 = "coin_47";
+    public GameObject[] listTextPrice;
+    public GameObject MessageSuccess;
+    const string PACK_1 = "com.onelinedrawpuzzle.pack1";
+    const string PACK_2 = "com.onelinedrawpuzzle.pack2";
+    const string PACK_3 = "com.onelinedrawpuzzle.pack3";
+    const string PACK_4 = "com.onelinedrawpuzzle.pack4";
+    const string PACK_5 = "com.onelinedrawpuzzle.pack5";
+    const string PACK_6 = "com.onelinedrawpuzzle.pack6";
+    const string PACK_7 = "com.onelinedrawpuzzle.pack7";
+    const string PACK_8 = "com.onelinedrawpuzzle.pack8";
 
     IStoreController m_StoreController;
-    // void Start()
-    // {
-    //     SetupBuilder();
-    // }
+    private String ConsumableId;
+    public Data data;
+    public Payload payload;
+    public PayloadData payloadData;
+    int numberHint;
 
     //SETUP BUILDER
     public void SetupBuilder()
@@ -42,44 +45,41 @@ public class IAPManager : MonoBehaviour, IStoreListener
         {
             builder.AddProduct(listItems[i].Id, ProductType.Consumable);
         }
-        // builder.AddProduct(cItem.Id, ProductType.Consumable);
         Debug.Log("SetupBuilder");
         UnityPurchasing.Initialize(this, builder);
     }
 
     /** UI BUTTON EVENTs for PURCHASE **/
-    public void Consumable_BtnCoin5_Pressed()
+    public void HandleInitiatePurchase(int posPack)
     {
-        m_StoreController.InitiatePurchase(COIN_5);
+        String productId = PACK_1;
+      switch (posPack)
+        {
+            case 2:
+                productId = PACK_2;
+                break;
+            case 3:  productId = PACK_3;
+                break;
+            case 4:  productId = PACK_4;
+                break;
+            case 5:  productId = PACK_5;
+                break;
+            case 6:  productId = PACK_6;
+                break;
+            case 7:  productId = PACK_7;
+                break;
+            case 8: productId = PACK_8;
+                break;
+        }
+      SetHandlePurchase(productId);
     }
-    public void Consumable_BtnCoin11_Pressed()
+
+    private void SetHandlePurchase(String pack)
     {
-        m_StoreController.InitiatePurchase(COIN_11);
+        ConsumableId = pack;
+        m_StoreController.InitiatePurchase(pack);
     }
-    public void Consumable_BtnCoin17_Pressed()
-    {
-        m_StoreController.InitiatePurchase(COIN_17);
-    }
-    public void Consumable_BtnCoin23_Pressed()
-    {
-        m_StoreController.InitiatePurchase(COIN_23);
-    }
-    public void Consumable_BtnCoin29_Pressed()
-    {
-        m_StoreController.InitiatePurchase(COIN_29);
-    }
-    public void Consumable_BtnCoin35_Pressed()
-    {
-        m_StoreController.InitiatePurchase(COIN_35);
-    }
-    public void Consumable_BtnCoin41_Pressed()
-    {
-        m_StoreController.InitiatePurchase(COIN_41);
-    }
-    public void Consumable_BtnCoin47_Pressed()
-    {
-        m_StoreController.InitiatePurchase(COIN_47);
-    }
+    
     public void OnInitializeFailed(InitializationFailureReason error)
     {
         throw new System.NotImplementedException();
@@ -87,51 +87,36 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
     {
-        //Restrive the purchased product
         var product = purchaseEvent.purchasedProduct;
-        Debug.Log("Purchase completed: " + product.definition.id);
-        if (product.definition.id == COIN_5)
-        {
-            //Add Coins
-            Debug.Log("Plus 5 coins");
-         //   shopController.AddCoin(5);
-        }
-        else if (product.definition.id == COIN_11)
-        {
-            Debug.Log("Plus 11 coins");
-      //      shopController.AddCoin(11);
-        }
-        else if (product.definition.id == COIN_17)
-        {
-            Debug.Log("Plus 17 coins");
-       //     shopController.AddCoin(17);
-        }
-        else if (product.definition.id == COIN_23)
-        {
-            Debug.Log("Plus 23 coins");
-        //    shopController.AddCoin(23);
-        }
-        else if (product.definition.id == COIN_29)
-        {
-            Debug.Log("Plus 29 coins");
-     //       shopController.AddCoin(29);
-        }
-        else if (product.definition.id == COIN_35)
-        {
-            Debug.Log("Plus 35 coins");
-     //      shopController.AddCoin(35);
-        }
-        else if (product.definition.id == COIN_41)
-        {
-            Debug.Log("Plus 41 coins");
-     //       shopController.AddCoin(41);
-        }
-        else if (product.definition.id == COIN_47)
-        {
-            Debug.Log("Plus 47 coins");
-      //      shopController.AddCoin(47);
-        }
+            var hint = 1;
+            switch (product.definition.id)
+            {
+                case PACK_2: hint = 6;
+                    break;
+                case PACK_3:  hint = 13;
+                    break;
+                case PACK_4:  hint = 25;
+                    break;
+                case PACK_5:  hint = 40;
+                    break;
+                case PACK_6:  hint = 65;
+                    break;
+                case PACK_7:  hint = 90;
+                    break;
+                case PACK_8: hint =150 ;
+                    break;
+            }
+            SaveGold(hint);
         return PurchaseProcessingResult.Complete;
+    }
+    
+    private void SaveGold(int hint)
+    {
+        numberHint = PlayerPrefs.GetInt("NumberHint", 5);
+        numberHint += hint;
+        PlayerPrefs.SetInt("NumberHint", numberHint);
+        PlayerPrefs.Save();
+        MessageSuccess.SetActive(true);
     }
 
     public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
@@ -143,10 +128,66 @@ public class IAPManager : MonoBehaviour, IStoreListener
     {
         Debug.Log("Init purchase success!");
         m_StoreController = controller;
+        for (int i = 0; i < listItems.Length; i++)
+        {
+            var item = listItems[i];
+            Product product = m_StoreController.products.WithID(item.Id);
+            if (product != null && product.metadata != null)
+            {
+                Debug.Log($"Product ID: {item.Id} - Price: {product.metadata.localizedPriceString}");
+                var textComponent = listTextPrice[i].GetComponent<TMP_Text>();
+                textComponent.text = product.metadata.localizedPriceString;
+            }
+        }
     }
 
     public void OnInitializeFailed(InitializationFailureReason error, string message)
     {
         throw new NotImplementedException();
+    }
+    
+    [Serializable]
+    public class SkuDetails
+    {
+        public string productId;
+        public string type;
+        public string title;
+        public string name;
+        public string iconUrl;
+        public string description;
+        public string price;
+        public long price_amount_micros;
+        public string price_currency_code;
+        public string skuDetailsToken;
+    }
+    
+    [Serializable]
+    public class Payload
+    {
+        public string json;
+        public string signature;
+        public List<SkuDetails> skuDetails;
+        public PayloadData payloadData;
+    }
+    
+    [Serializable]
+    public class PayloadData
+    {
+        public string orderId;
+        public string packageName;
+        public string productId;
+        public long purchaseTime;
+        public int purchaseState;
+        public string purchaseToken;
+        public int quantity;
+        public bool acknowledged;
+    }
+
+    [Serializable]
+    public class Data
+    {
+        public string Payload;
+        public string Store;
+        public string TransactionID;
     }
 }
