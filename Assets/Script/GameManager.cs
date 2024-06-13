@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
                     Vector3 startPosition = points[line.x].Position;
                     Vector3 endPosition = points[line.y].Position;
                     sequence.Append(finger.transform.DOMove(startPosition, 0));
-                    sequence.Append(finger.transform.DOMove(endPosition, 0.2f).SetEase(Ease.Linear));
+                    sequence.Append(finger.transform.DOMove(endPosition, 1f).SetEase(Ease.Linear));
                 }
                 startIndex = endIndex;
                 sequence.Append(finger.transform.DOScale(0.8f, 0.2f).SetLoops(2, LoopType.Yoyo));
